@@ -7,7 +7,6 @@ use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserResetPinRequest;
 use App\Http\Resources\ApiResponse;
 use App\Http\Resources\UserResource;
-use App\Services\ActivityLogService;
 use App\Services\OtpService;
 use App\Services\UserAuthService;
 use Illuminate\Http\JsonResponse;
@@ -17,8 +16,7 @@ class UserAuthController extends Controller
 {
     public function __construct(
         protected UserAuthService $userAuthService,
-        protected OtpService $otpService,
-        protected ActivityLogService $activityLogService
+        protected OtpService $otpService
     ) {}
 
     /**

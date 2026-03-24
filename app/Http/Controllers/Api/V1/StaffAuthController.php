@@ -7,7 +7,6 @@ use App\Http\Requests\StaffRegisterRequest;
 use App\Http\Resources\ApiResponse;
 use App\Http\Resources\StaffResource;
 use App\Models\Role;
-use App\Services\ActivityLogService;
 use App\Services\StaffAuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,8 +14,7 @@ use Illuminate\Http\Request;
 class StaffAuthController extends Controller
 {
     public function __construct(
-        protected StaffAuthService $staffAuthService,
-        protected ActivityLogService $activityLogService
+        protected StaffAuthService $staffAuthService
     ) {}
 
     /**
