@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Middleware;
 
-use App\Exceptions\ForbiddenException;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Validation\UnauthorizedException;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
@@ -16,7 +16,7 @@ class CheckRole
         $user = $request->user();
 
         if (! $user) {
-            throw new ForbiddenException('Unauthorized');
+            throw new UnauthorizedException('Unauthorized');
         }
 
         foreach ($roles as $role) {
@@ -25,6 +25,6 @@ class CheckRole
             }
         }
 
-        throw new ForbiddenException('You do not have permission to perform this action');
+        throw new UnauthorizedException('You do not have permission to perform this action');
     }
 }

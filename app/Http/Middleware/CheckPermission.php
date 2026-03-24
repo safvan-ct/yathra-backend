@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Middleware;
 
-use App\Exceptions\ForbiddenException;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Validation\UnauthorizedException;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckPermission
@@ -16,7 +16,7 @@ class CheckPermission
         $user = $request->user();
 
         if (! $user) {
-            throw new ForbiddenException('Unauthorized');
+            throw new UnauthorizedException('Unauthorized');
         }
 
         foreach ($permissions as $permission) {
@@ -25,6 +25,6 @@ class CheckPermission
             }
         }
 
-        throw new ForbiddenException('You do not have the required permission');
+        throw new UnauthorizedException('You do not have the required permission');
     }
 }
