@@ -30,6 +30,10 @@ class UserAuthService
             return null;
         }
 
+        if ($user->login_attempts >= 5 && $user->last_login_attempt && $user->last_login_attempt->diffInMinutes(now()) < 15) {
+            return null;
+        }
+
         if (! Hash::check($pin, $user->pin)) {
             return null;
         }

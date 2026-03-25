@@ -39,6 +39,10 @@ class StaffAuthService
             return null;
         }
 
+        if ($staff->login_attempts >= 5 && $staff->last_login_attempt && $staff->last_login_attempt->diffInMinutes(now()) < 15) {
+            return null;
+        }
+
         if (! Hash::check($password, $staff->password)) {
             return null;
         }
