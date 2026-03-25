@@ -14,8 +14,8 @@ class DistrictResource extends JsonResource
             'local_name' => $this->local_name,
             'code'       => $this->code,
             'is_active'  => $this->is_active,
-            'state'      => $this->whenLoaded('state', new StateResource($this->state)),
-            'cities'     => $this->whenLoaded('cities', CityResource::collection($this->cities)),
+            'state'      => new StateResource($this->whenLoaded('state')),
+            'cities'     => CityResource::collection($this->whenLoaded('cities')),
         ];
     }
 }

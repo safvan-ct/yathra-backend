@@ -14,7 +14,7 @@ class StateResource extends JsonResource
             'local_name' => $this->local_name,
             'code'       => $this->code,
             'is_active'  => $this->is_active,
-            'districts'  => $this->whenLoaded('districts', DistrictResource::collection($this->districts)),
+            'districts'  => DistrictResource::collection($this->whenLoaded('districts')),
         ];
     }
 }

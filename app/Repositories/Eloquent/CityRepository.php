@@ -8,7 +8,7 @@ class CityRepository implements CityRepositoryInterface
 {
     public function paginate(array $filters = [], int $perPage = 15)
     {
-        $query = City::with('district.state');
+        $query = City::query();
 
         if (! empty($filters['search'])) {
             $query->where('name', 'like', '%' . $filters['search'] . '%')

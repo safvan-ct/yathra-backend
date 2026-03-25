@@ -11,11 +11,13 @@ class StateRepository implements StateRepositoryInterface
         $query = State::query();
 
         if (! empty($filters['search'])) {
-            $query->where('name', 'like', '%' . $filters['search'] . '%')->orWhere('code', 'like', '%' . $filters['search'] . '%');
+            $query->where('name', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('local_name', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('code', 'like', '%' . $filters['search'] . '%');
         }
 
         if (isset($filters['active'])) {
-            $query->where('active', (bool) $filters['is_active']);
+            $query->where('is_active', (bool) $filters['active']);
         }
 
         return $query->orderBy('name')->paginate($perPage);

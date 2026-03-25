@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDistrictRequest;
 use App\Http\Requests\UpdateDistrictRequest;
 use App\Http\Resources\ApiResponse;
@@ -10,7 +9,7 @@ use App\Services\DistrictService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class DistrictController extends Controller
+class DistrictController
 {
     public function __construct(
         protected DistrictService $districtService

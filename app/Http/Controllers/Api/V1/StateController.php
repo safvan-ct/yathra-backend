@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStateRequest;
 use App\Http\Requests\UpdateStateRequest;
 use App\Http\Resources\ApiResponse;
@@ -10,7 +9,7 @@ use App\Services\StateService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class StateController extends Controller
+class StateController
 {
     public function __construct(protected StateService $stateService)
     {}
