@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
 class ActivityLogService
@@ -9,12 +10,13 @@ class ActivityLogService
     /**
      * Log an activity.
      */
-    public function log(
-        string $action, ?string $actorType = null, ?int $actorId = null, ?string $modelType = null, ?int $modelId = null, ?array $changes = null
-    ): ActivityLog {
+    public function log(string $action, ?string $modelType = null, ?int $modelId = null, ?array $changes = null): ActivityLog
+    {
+        $user = auth('sanctum')->user() ?? Auth::user();
+
         return ActivityLog::create([
-            'actor_type' => $actorType,
-            'actor_id'   => $actorId,
+            'actor_type' => $user ? get_class($user) : null,
+            'actor_id'   => $user?->id,
             'action'     => $action,
             'model_type' => $modelType,
             'model_id'   => $modelId,

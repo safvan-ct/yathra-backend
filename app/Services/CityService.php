@@ -18,7 +18,7 @@ class CityService
     public function create(array $data)
     {
         $city = $this->cityRepository->create($data);
-        $this->activityLogService->log('city_created', 'App\\Models\\City', $city->id, 'App\\Models\\City', $city->id, $city->toArray());
+        $this->activityLogService->log('city_created', 'App\\Models\\City', $city->id, $city->toArray());
         return $city;
     }
 
@@ -31,7 +31,7 @@ class CityService
     {
         $city = $this->cityRepository->update($id, $data);
         if ($city) {
-            $this->activityLogService->log('city_updated', 'App\\Models\\City', $city->id, 'App\\Models\\City', $city->id, $city->toArray());
+            $this->activityLogService->log('city_updated', 'App\\Models\\City', $city->id, $city->toArray());
         }
 
         return $city;
@@ -41,7 +41,7 @@ class CityService
     {
         $deleted = $this->cityRepository->delete($id);
         if ($deleted) {
-            $this->activityLogService->log('city_deleted', 'App\\Models\\City', $id, 'App\\Models\\City', $id, null);
+            $this->activityLogService->log('city_deleted', 'App\\Models\\City', $id, null);
         }
 
         return $deleted;

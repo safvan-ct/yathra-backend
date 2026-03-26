@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\CityController;
 use App\Http\Controllers\Api\V1\DistrictController;
 use App\Http\Controllers\Api\V1\StaffAuthController;
 use App\Http\Controllers\Api\V1\StateController;
+use App\Http\Controllers\Api\V1\StationController;
 use App\Http\Controllers\Api\V1\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,5 +38,6 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('states', StateController::class);
         Route::apiResource('districts', DistrictController::class);
         Route::apiResource('cities', CityController::class);
+        Route::apiResource('stations', StationController::class);
     });
 });
