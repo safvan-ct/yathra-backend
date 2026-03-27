@@ -39,4 +39,9 @@ class TransitRoute extends Model
     {
         return $this->hasMany(RouteNode::class, 'route_id')->orderBy('stop_sequence');
     }
+
+    public function trips()
+    {
+        return $this->hasMany(Trip::class, 'route_id');
+    }
 }

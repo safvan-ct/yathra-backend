@@ -10,8 +10,7 @@ class BusService
     public const INDIAN_BUS_NUMBER_REGEX = '/^[A-Z]{2}\s?\d{1,2}\s?[A-Z]{0,2}\s?\d{3,4}$/i';
 
     public function __construct(
-        protected BusRepositoryInterface $busRepository,
-        protected ActivityLogService $activityLogService
+        protected BusRepositoryInterface $busRepository
     ) {}
 
     public function list(array $filters = [], int $perPage = 15)

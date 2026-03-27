@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\Api\V1\BusController;
 use App\Http\Controllers\Api\V1\CityController;
 use App\Http\Controllers\Api\V1\DistrictController;
+use App\Http\Controllers\Api\V1\OperatorController;
 use App\Http\Controllers\Api\V1\RouteNodeController;
 use App\Http\Controllers\Api\V1\StaffAuthController;
 use App\Http\Controllers\Api\V1\StateController;
 use App\Http\Controllers\Api\V1\StationController;
 use App\Http\Controllers\Api\V1\TransitRouteController;
+use App\Http\Controllers\Api\V1\TripController;
 use App\Http\Controllers\Api\V1\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,26 +39,38 @@ Route::prefix('v1')->group(function () {
     });
 
     // Location Routes
-    Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
-        Route::apiResource('states', StateController::class);
-        Route::apiResource('districts', DistrictController::class);
-        Route::apiResource('cities', CityController::class);
-        Route::apiResource('stations', StationController::class);
-    });
-
     Route::middleware(['auth:sanctum'])->group(function () {
-        Route::get('routes', [TransitRouteController::class, 'index']);
-        Route::get('routes/{id}', [TransitRouteController::class, 'show']);
+        Route::apiResource('states', StateController::class)->only(['index', 'show']);
+        Route::apiResource('districts', DistrictController::class)->only(['index', 'show']);
+        Route::apiResource('cities', CityController::class)->only(['index', 'show']);
+        Route::apiResource('stations', StationController::class)->only(['index', 'show']);
+
+        Route::apiResource('operators', OperatorController::class)->only(['index', 'show']);
+        Route::apiResource('buses', BusController::class)->only(['index', 'show']);
+        Route::apiResource('routes', TransitRouteController::class)->only(['index', 'show']);
         Route::get('routes/{route}/nodes', [RouteNodeController::class, 'index']);
+
+        Route::get('trips', [TripController::class, 'index']);
+        Route::get('trips/active', [TripController::class, 'active']);
+        Route::get('trips/today', [TripController::class, 'today']);
+        Route::get('trips/day/{dayIndex}', [TripController::class, 'byDay']);
+        Route::get('trips/{id}', [TripController::class, 'show']);
     });
 
     Route::middleware(['auth:sanctum', 'role:admin,staff'])->group(function () {
-        Route::post('routes', [TransitRouteController::class, 'store']);
-        Route::put('routes/{id}', [TransitRouteController::class, 'update']);
-        Route::delete('routes/{id}', [TransitRouteController::class, 'destroy']);
+        Route::apiResource('states', StateController::class)->except(['index', 'show']);
+        Route::apiResource('districts', DistrictController::class)->except(['index', 'show']);
+        Route::apiResource('cities', CityController::class)->except(['index', 'show']);
+        Route::apiResource('stations', StationController::class)->except(['index', 'show']);
+
+        Route::apiResource('operators', OperatorController::class)->except(['index', 'show']);
+        Route::apiResource('buses', BusController::class)->except(['index', 'show']);
+        Route::apiResource('routes', TransitRouteController::class)->except(['index', 'show']);
 
         Route::post('routes/{route}/nodes', [RouteNodeController::class, 'store']);
         Route::put('routes/{route}/nodes/{id}', [RouteNodeController::class, 'update']);
         Route::delete('routes/{route}/nodes/{id}', [RouteNodeController::class, 'destroy']);
+
+        Route::apiResource('trips', TripController::class)->only(['store', 'update', 'destroy']);
     });
 });
