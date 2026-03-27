@@ -20,4 +20,19 @@ class Station extends Model
     {
         return $this->belongsTo(City::class);
     }
+
+    public function originRoutes()
+    {
+        return $this->hasMany(TransitRoute::class, 'origin_id');
+    }
+
+    public function destinationRoutes()
+    {
+        return $this->hasMany(TransitRoute::class, 'destination_id');
+    }
+
+    public function routeNodes()
+    {
+        return $this->hasMany(RouteNode::class);
+    }
 }

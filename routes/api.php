@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Api\V1\CityController;
 use App\Http\Controllers\Api\V1\DistrictController;
+use App\Http\Controllers\Api\V1\RouteNodeController;
 use App\Http\Controllers\Api\V1\StaffAuthController;
 use App\Http\Controllers\Api\V1\StateController;
 use App\Http\Controllers\Api\V1\StationController;
+use App\Http\Controllers\Api\V1\TransitRouteController;
 use App\Http\Controllers\Api\V1\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,5 +41,21 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('districts', DistrictController::class);
         Route::apiResource('cities', CityController::class);
         Route::apiResource('stations', StationController::class);
+    });
+
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('routes', [TransitRouteController::class, 'index']);
+        Route::get('routes/{id}', [TransitRouteController::class, 'show']);
+        Route::get('routes/{route}/nodes', [RouteNodeController::class, 'index']);
+    });
+
+    Route::middleware(['auth:sanctum', 'role:admin,staff'])->group(function () {
+        Route::post('routes', [TransitRouteController::class, 'store']);
+        Route::put('routes/{id}', [TransitRouteController::class, 'update']);
+        Route::delete('routes/{id}', [TransitRouteController::class, 'destroy']);
+
+        Route::post('routes/{route}/nodes', [RouteNodeController::class, 'store']);
+        Route::put('routes/{route}/nodes/{id}', [RouteNodeController::class, 'update']);
+        Route::delete('routes/{route}/nodes/{id}', [RouteNodeController::class, 'destroy']);
     });
 });
