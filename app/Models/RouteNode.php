@@ -30,4 +30,9 @@ class RouteNode extends Model
     {
         return $this->belongsTo(Station::class);
     }
+
+    public function suggestions()
+    {
+        return $this->morphMany(Suggestion::class, 'suggestable');
+    }
 }

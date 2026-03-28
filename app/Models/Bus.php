@@ -33,4 +33,9 @@ class Bus extends Model
     {
         return $this->hasMany(Trip::class);
     }
+
+    public function suggestions()
+    {
+        return $this->morphMany(Suggestion::class, 'suggestable');
+    }
 }

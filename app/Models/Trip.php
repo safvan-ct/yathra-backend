@@ -31,4 +31,9 @@ class Trip extends Model
     {
         return $this->belongsTo(TransitRoute::class, 'route_id');
     }
+
+    public function suggestions()
+    {
+        return $this->morphMany(Suggestion::class, 'suggestable');
+    }
 }

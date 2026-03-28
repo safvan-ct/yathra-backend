@@ -35,4 +35,9 @@ class Station extends Model
     {
         return $this->hasMany(RouteNode::class);
     }
+
+    public function suggestions()
+    {
+        return $this->morphMany(Suggestion::class, 'suggestable');
+    }
 }

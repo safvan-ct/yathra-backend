@@ -44,4 +44,9 @@ class TransitRoute extends Model
     {
         return $this->hasMany(Trip::class, 'route_id');
     }
+
+    public function suggestions()
+    {
+        return $this->morphMany(Suggestion::class, 'suggestable');
+    }
 }

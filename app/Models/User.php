@@ -24,4 +24,19 @@ class User extends Authenticatable
             'last_login_attempt' => 'datetime',
         ];
     }
+
+    public function suggestions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Suggestion::class);
+    }
+
+    public function rewards(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(UserReward::class);
+    }
+
+    public function getTotalPointsAttribute(): int
+    {
+        return $this->rewards()->sum('points');
+    }
 }
