@@ -2356,7 +2356,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"suggestable_type\": \"Trip\",\n    \"suggestable_id\": 1,\n    \"proposed_data\": {\n        \"departure_time\": \"08:00:00\"\n    }\n}"
+                            "raw": "{\n    \"suggestable_type\": \"Trip\",\n    \"suggestable_id\": 1,\n    \"type\": \"new_entry\",\n    \"proposed_data\": {\n        \"departure_time\": \"08:00\"\n    }\n}"
                         },
                         "url": {
                             "raw": "{{base_url}}/api/v1/suggestions",
@@ -2688,6 +2688,87 @@
                                 "suggestions",
                                 ":id",
                                 "review"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Trust Score",
+            "item": [
+                {
+                    "name": "Get Trust Profile",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/trust/profile",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "trust",
+                                "profile"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Trust Leaderboard",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/trust/leaderboard",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "trust",
+                                "leaderboard"
                             ]
                         }
                     }

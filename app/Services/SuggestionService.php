@@ -13,13 +13,34 @@ class SuggestionService
 {
     public function __construct(
         protected SuggestionRepositoryInterface $suggestionRepository,
-        protected RewardService $rewardService
+        protected RewardService $rewardService,
+        protected TrustService $trustService
     ) {}
 
     public function submitSuggestion(array $data): Suggestion
     {
-        $data['status']           = SuggestionStatus::Pending->value;
-        $data['suggestable_type'] = $data['suggestable_type'] ? $this->getModelClass($data['suggestable_type']) : null;
+        $user                     = \App\Models\User::find($data['user_id']);
+        $modelClass               = $data['suggestable_type'] ? $this->getModelClass($data['suggestable_type']) : null;
+        $data['suggestable_type'] = $modelClass;
+
+        $safeguardedEntities = [\App\Models\TransitRoute::class, \App\Models\RouteNode::class];
+        $isAutoApprovable    = $user && $user->trust_level === 'high' && ! in_array($modelClass, $safeguardedEntities);
+
+        $data['status'] = $isAutoApprovable ? SuggestionStatus::Approved->value : SuggestionStatus::Pending->value;
+
+        if ($isAutoApprovable) {
+            DB::beginTransaction();
+            try {
+                $suggestion = $this->suggestionRepository->create($data);
+                $this->handleApproval($suggestion);
+                DB::commit();
+                return $suggestion;
+            } catch (Exception $e) {
+                DB::rollBack();
+                throw clone $e;
+            }
+        }
+
         return $this->suggestionRepository->create($data);
     }
 
@@ -41,6 +62,10 @@ class SuggestionService
 
             if ($status === SuggestionStatus::Approved) {
                 $this->handleApproval($suggestion);
+            } elseif ($status === SuggestionStatus::Rejected) {
+                $this->trustService->onSuggestionRejected($suggestion->user);
+            } elseif ($status === SuggestionStatus::Flagged) {
+                $this->trustService->onSuggestionFlagged($suggestion->user);
             }
 
             DB::commit();
@@ -59,17 +84,21 @@ class SuggestionService
             throw new Exception("Invalid suggestable type.");
         }
 
-        $isNewEntry = is_null($suggestion->suggestable_id);
+        $typeEnum = $suggestion->type; // App\Enums\SuggestionType
 
-        if ($isNewEntry) {
+        if ($typeEnum === \App\Enums\SuggestionType::NewEntry) {
             $modelClass::create($suggestion->proposed_data);
             $activityType = \App\Enums\RewardActivityType::NewEntry;
-        } else {
+        } elseif ($typeEnum === \App\Enums\SuggestionType::Update) {
             $modelClass::where('id', $suggestion->suggestable_id)->update($suggestion->proposed_data);
+            $activityType = \App\Enums\RewardActivityType::Update;
+        } else {
+            // Verification doesn't mutate existing core data
             $activityType = \App\Enums\RewardActivityType::Verification;
         }
 
         $this->rewardService->rewardUser($suggestion->user_id, $suggestion->id, $activityType);
+        $this->trustService->onSuggestionApproved($suggestion->user, $typeEnum);
     }
 
     protected function getModelClass(string $type): ?string

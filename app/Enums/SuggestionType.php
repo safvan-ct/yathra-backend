@@ -1,7 +1,7 @@
 <?php
 namespace App\Enums;
 
-enum RewardActivityType: string {
+enum SuggestionType: string {
     case NewEntry     = 'new_entry';
     case Update       = 'update';
     case Verification = 'verification';

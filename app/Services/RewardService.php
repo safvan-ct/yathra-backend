@@ -19,6 +19,7 @@ class RewardService
 
         $points = match ($activityType) {
             RewardActivityType::NewEntry     => 10,
+            RewardActivityType::Update       => 7,
             RewardActivityType::Verification => 5,
             default                          => 0,
         };

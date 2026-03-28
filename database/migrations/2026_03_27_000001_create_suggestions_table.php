@@ -22,6 +22,7 @@ return new class extends Migration
             $table->json('proposed_data');
 
             $table->string('status')->default('Pending');
+            $table->enum('type', ['new_entry', 'update', 'verification'])->default('new_entry');
 
             $table->foreignId('admin_id')->nullable()->constrained('users')->nullOnDelete();
             $table->text('review_note')->nullable();

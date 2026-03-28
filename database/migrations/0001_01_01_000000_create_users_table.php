@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('pin');
             $table->integer('login_attempts')->default(0);
             $table->timestamp('last_login_attempt')->nullable();
+            $table->integer('trust_score')->default(0);
+            $table->enum('trust_level', ['low', 'medium', 'high'])->default('low');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

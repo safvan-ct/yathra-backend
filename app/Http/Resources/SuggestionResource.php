@@ -13,6 +13,7 @@ class SuggestionResource extends JsonResource
             'user_id'          => $this->user_id,
             'suggestable_type' => $this->suggestable_type,
             'suggestable_id'   => $this->suggestable_id,
+            'type'             => $this->type->value,
             'proposed_data'    => $this->proposed_data,
             'status'           => $this->status->value,
             'review_note'      => $this->review_note,

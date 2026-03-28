@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use App\Enums\SuggestionStatus;
+use App\Enums\SuggestionType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -16,6 +17,7 @@ class Suggestion extends Model
         'user_id',
         'suggestable_type',
         'suggestable_id',
+        'type',
         'proposed_data',
         'status',
         'admin_id',
@@ -25,6 +27,7 @@ class Suggestion extends Model
     protected $casts = [
         'proposed_data' => 'array',
         'status'        => SuggestionStatus::class,
+        'type'          => SuggestionType::class,
     ];
 
     public function user(): BelongsTo

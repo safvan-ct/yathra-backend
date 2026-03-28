@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\V1\StationController;
 use App\Http\Controllers\Api\V1\SuggestionController;
 use App\Http\Controllers\Api\V1\TransitRouteController;
 use App\Http\Controllers\Api\V1\TripController;
+use App\Http\Controllers\Api\V1\TrustController;
 use App\Http\Controllers\Api\V1\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -65,6 +66,11 @@ Route::prefix('v1')->group(function () {
             Route::get('points', [RewardController::class, 'getPoints']);
             Route::get('history', [RewardController::class, 'history']);
             Route::get('leaderboard', [RewardController::class, 'leaderboard']);
+        });
+
+        Route::prefix('trust')->group(function () {
+            Route::get('profile', [TrustController::class, 'profile']);
+            Route::get('leaderboard', [TrustController::class, 'leaderboard']);
         });
     });
 
