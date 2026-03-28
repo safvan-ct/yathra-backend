@@ -47,13 +47,14 @@ class CitySeeder extends Seeder
             ['name' => 'Vadakkencherry', 'code' => 'VDC'],
             ['name' => 'Parali', 'code' => 'PRL'],
             ['name' => 'Malampuzha', 'code' => 'MLPZ'],
+            ['district_id' => 10, 'name' => 'Perinthalmanna', 'code' => 'PMNA'],
         ];
 
         foreach ($cities as $city) {
             City::updateOrCreate(
                 [
                     'code'        => $city['code'],
-                    'district_id' => $district->id,
+                    'district_id' => $city['district_id'] ?? $district->id,
                 ],
                 [
                     'name'      => $city['name'],

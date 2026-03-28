@@ -28,6 +28,7 @@ return new class extends Migration
         Schema::create('buses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('operator_id')->constrained('operators')->cascadeOnDelete();
+            $table->string('bus_name');
             $table->string('bus_number')->unique();
             $table->string('bus_number_code')->unique();
             $table->enum('category', ['Sleeper', 'Seater', 'AC', 'Ordinary'])->default('Ordinary');

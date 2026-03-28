@@ -21,6 +21,10 @@ class DatabaseSeeder extends Seeder
             DistrictSeeder::class,
             CitySeeder::class,
             StationSeeder::class,
+            TransitRouteSeeder::class,
+            OperatorSeeder::class,
+            BusSeeder::class,
+            TripSeeder::class,
         ]);
     }
 }
