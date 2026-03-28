@@ -127,7 +127,7 @@ class UserAuthController extends Controller
      */
     public function getCurrentUser(Request $request): JsonResponse
     {
-        $user = $request->user();
+        $user = $request->user()->loadCount('suggestions')->loadSum('rewards', 'points');
 
         return ApiResponse::success(new UserResource($user), 'User retrieved successfully');
     }
