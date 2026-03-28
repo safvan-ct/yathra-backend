@@ -8,7 +8,6 @@ use App\Http\Resources\SuggestionResource;
 use App\Repositories\Interfaces\SuggestionRepositoryInterface;
 use App\Services\SuggestionService;
 use Illuminate\Http\Request;
-use Illuminate\Validation\UnauthorizedException;
 
 class SuggestionController extends Controller
 {
@@ -25,7 +24,7 @@ class SuggestionController extends Controller
 
     public function store(StoreSuggestionRequest $request)
     {
-        $this->validateUser($request);
+        $this->suggestionService->validateUser($request);
 
         $data                  = $request->validated();
         $data['user_id']       = $request->user()->id;
@@ -38,7 +37,7 @@ class SuggestionController extends Controller
 
     public function show(Request $request, int $id)
     {
-        $this->validateUser($request);
+        $this->suggestionService->validateUser($request);
 
         $suggestion = $this->suggestionRepository->find($id);
         if (! $suggestion || $suggestion->user_id !== $request->user()->id) {
@@ -50,7 +49,7 @@ class SuggestionController extends Controller
 
     public function destroy(Request $request, int $id)
     {
-        $this->validateUser($request);
+        $this->suggestionService->validateUser($request);
 
         $suggestion = $this->suggestionRepository->find($id);
         if (! $suggestion || $suggestion->user_id !== $request->user()->id) {
@@ -63,13 +62,5 @@ class SuggestionController extends Controller
 
         $this->suggestionRepository->delete($id);
         return ApiResponse::success(null, 'Deleted successfully');
-    }
-
-    protected function validateUser(Request $request)
-    {
-        $user = $request->user();
-        if (! $user || ! ($user instanceof \App\Models\User)) {
-            throw new UnauthorizedException('Unauthorized');
-        }
     }
 }

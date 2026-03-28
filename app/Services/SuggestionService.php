@@ -5,7 +5,9 @@ use App\Enums\SuggestionStatus;
 use App\Models\Suggestion;
 use App\Repositories\Interfaces\SuggestionRepositoryInterface;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\UnauthorizedException;
 
 class SuggestionService
 {
@@ -81,5 +83,13 @@ class SuggestionService
         ];
 
         return $map[$type] ?? null;
+    }
+
+    public function validateUser(Request $request)
+    {
+        $user = $request->user();
+        if (! $user || ! ($user instanceof \App\Models\User)) {
+            throw new UnauthorizedException('Unauthorized');
+        }
     }
 }

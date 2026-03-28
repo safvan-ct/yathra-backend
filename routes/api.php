@@ -1,13 +1,16 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Admin\SuggestionController as AdminSuggestionController;
 use App\Http\Controllers\Api\V1\BusController;
 use App\Http\Controllers\Api\V1\CityController;
 use App\Http\Controllers\Api\V1\DistrictController;
 use App\Http\Controllers\Api\V1\OperatorController;
+use App\Http\Controllers\Api\V1\RewardController;
 use App\Http\Controllers\Api\V1\RouteNodeController;
 use App\Http\Controllers\Api\V1\StaffAuthController;
 use App\Http\Controllers\Api\V1\StateController;
 use App\Http\Controllers\Api\V1\StationController;
+use App\Http\Controllers\Api\V1\SuggestionController;
 use App\Http\Controllers\Api\V1\TransitRouteController;
 use App\Http\Controllers\Api\V1\TripController;
 use App\Http\Controllers\Api\V1\UserAuthController;
@@ -55,6 +58,14 @@ Route::prefix('v1')->group(function () {
         Route::get('trips/today', [TripController::class, 'today']);
         Route::get('trips/day/{dayIndex}', [TripController::class, 'byDay']);
         Route::get('trips/{id}', [TripController::class, 'show']);
+
+        Route::apiResource('suggestions', SuggestionController::class)->only(['index', 'store', 'show', 'destroy']);
+
+        Route::prefix('rewards')->group(function () {
+            Route::get('points', [RewardController::class, 'getPoints']);
+            Route::get('history', [RewardController::class, 'history']);
+            Route::get('leaderboard', [RewardController::class, 'leaderboard']);
+        });
     });
 
     Route::middleware(['auth:sanctum', 'role:admin,staff'])->group(function () {
@@ -72,5 +83,9 @@ Route::prefix('v1')->group(function () {
         Route::delete('routes/{route}/nodes/{id}', [RouteNodeController::class, 'destroy']);
 
         Route::apiResource('trips', TripController::class)->only(['store', 'update', 'destroy']);
+
+        Route::get('admin/suggestions', [AdminSuggestionController::class, 'index']);
+        Route::get('admin/suggestions/{id}', [AdminSuggestionController::class, 'show']);
+        Route::post('admin/suggestions/{id}/review', [AdminSuggestionController::class, 'review']);
     });
 });
