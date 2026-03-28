@@ -23,6 +23,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/register', [UserAuthController::class, 'register']);
         Route::post('/login', [UserAuthController::class, 'login']);
         Route::post('/request-pin-reset-otp', [UserAuthController::class, 'requestPinResetOtp']);
+        Route::post('/verify-otp', [UserAuthController::class, 'verifyOtp']);
         Route::post('/reset-pin', [UserAuthController::class, 'resetPin']);
 
         Route::middleware('auth:sanctum')->group(function () {

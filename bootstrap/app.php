@@ -26,10 +26,4 @@ return Application::configure(basePath: dirname(__DIR__))
                 return ApiResponse::error('Unauthorized', $e->getMessage(), 401);
             }
         });
-
-        $exceptions->render(function (Throwable $e, Request $request) {
-            if ($request->is('api/*') || $request->expectsJson()) {
-                return ApiResponse::error('Server Error', config('app.debug') ? $e->getMessage() : null, 500);
-            }
-        });
     })->create();

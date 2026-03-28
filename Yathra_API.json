@@ -7,7 +7,7 @@
     },
     "item": [
         {
-            "name": "User Authentication",
+            "name": "User Auth",
             "item": [
                 {
                     "name": "Register User",
@@ -101,6 +101,38 @@
                                 "v1",
                                 "user",
                                 "request-pin-reset-otp"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Verify OTP",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"phone\": \"9876543210\",\n    \"otp\": \"123456\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user/verify-otp",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user",
+                                "verify-otp"
                             ]
                         }
                     }
@@ -216,7 +248,7 @@
             ]
         },
         {
-            "name": "Staff Authentication",
+            "name": "Staff Auth",
             "item": [
                 {
                     "name": "Register Staff",
@@ -2291,10 +2323,10 @@
             ]
         },
         {
-            "name": "Suggestions",
+            "name": "Contributions",
             "item": [
                 {
-                    "name": "List Suggestions",
+                    "name": "List Contributions",
                     "request": {
                         "auth": {
                             "type": "bearer",
@@ -2331,7 +2363,7 @@
                     }
                 },
                 {
-                    "name": "Submit Suggestion",
+                    "name": "Submit Contribution",
                     "request": {
                         "auth": {
                             "type": "bearer",
@@ -2372,7 +2404,7 @@
                     }
                 },
                 {
-                    "name": "Get Suggestion",
+                    "name": "Get Contribution",
                     "request": {
                         "auth": {
                             "type": "bearer",
@@ -2410,7 +2442,7 @@
                     }
                 },
                 {
-                    "name": "Delete Suggestion",
+                    "name": "Delete Contribution",
                     "request": {
                         "auth": {
                             "type": "bearer",
@@ -2569,10 +2601,10 @@
             ]
         },
         {
-            "name": "Admin Suggestions",
+            "name": "Admin Contributions",
             "item": [
                 {
-                    "name": "List All Suggestions",
+                    "name": "List Contributions",
                     "request": {
                         "auth": {
                             "type": "bearer",
@@ -2610,7 +2642,7 @@
                     }
                 },
                 {
-                    "name": "Get Suggestion Details",
+                    "name": "Get Contribution Details",
                     "request": {
                         "auth": {
                             "type": "bearer",
@@ -2649,7 +2681,7 @@
                     }
                 },
                 {
-                    "name": "Review Suggestion",
+                    "name": "Review Contribution",
                     "request": {
                         "auth": {
                             "type": "bearer",

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserResetPinRequest;
+use App\Http\Requests\UserVerifyOtpRequest;
 use App\Http\Resources\ApiResponse;
 use App\Http\Resources\UserResource;
 use App\Services\OtpService;
@@ -86,6 +87,21 @@ class UserAuthController extends Controller
     }
 
     /**
+     * Verify OTP
+     */
+    public function verifyOtp(UserVerifyOtpRequest $request): JsonResponse
+    {
+        $phone = $request->input('phone');
+        $otp   = $request->input('otp');
+
+        if ($otp && ! $this->otpService->verifyOtp($phone, $otp)) {
+            return ApiResponse::error('Invalid or expired OTP', null, 400);
+        }
+
+        return ApiResponse::success(null, 'OTP Verified successfully');
+    }
+
+    /**
      * Verify OTP and reset PIN.
      */
     public function resetPin(UserResetPinRequest $request): JsonResponse
@@ -93,8 +109,8 @@ class UserAuthController extends Controller
         $phone = $request->input('phone');
         $otp   = $request->input('otp');
 
-        if ($otp && ! $this->otpService->verifyOtp($phone, $otp)) {
-            return ApiResponse::error('Invalid or expired OTP', null, 400);
+        if ($otp && ! $this->otpService->verifiedOtp($phone, $otp)) {
+            return ApiResponse::error('OTP expired', null, 400);
         }
 
         $user = $this->userAuthService->resetPin($phone, $request->input('new_pin'));

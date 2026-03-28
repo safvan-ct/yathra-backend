@@ -49,6 +49,25 @@ class OtpService
         return true;
     }
 
+    public function verifiedOtp(string $phone, string $otp, string $type = 'pin_reset'): bool
+    {
+        $verification = OtpVerification::where('phone', $phone)
+            ->where('otp', $otp)
+            ->where('type', $type)
+            ->where('is_verified', true)
+            ->first();
+
+        if (! $verification) {
+            return false;
+        }
+
+        if ($verification->isExpired()) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Get unverified OTP.
      */
