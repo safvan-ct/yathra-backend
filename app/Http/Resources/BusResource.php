@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ class BusResource extends JsonResource
         return [
             'id'          => $this->id,
             'operator_id' => $this->operator_id,
+            'bus_name'    => $this->bus_name,
             'bus_number'  => $this->bus_number,
             'category'    => $this->category,
             'bus_color'   => $this->bus_color,

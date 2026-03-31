@@ -32,8 +32,8 @@ return new class extends Migration
             $table->string('bus_number')->unique();
             $table->string('bus_number_code')->unique();
             $table->enum('category', ['Sleeper', 'Seater', 'AC', 'Ordinary'])->default('Ordinary');
-            $table->string('bus_color')->nullable();
-            $table->unsignedInteger('total_seats');
+            $table->string('bus_color')->default('Blue');
+            $table->unsignedInteger('total_seats')->default(40);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();

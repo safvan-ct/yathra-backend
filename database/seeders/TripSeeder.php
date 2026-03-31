@@ -2,57 +2,70 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class TripSeeder extends Seeder
 {
     public function run(): void
     {
-        $now = Carbon::now();
+        $days = json_encode([1, 1, 1, 1, 1, 1, 1]);
 
-        $buses = DB::table('buses')->pluck('id');
+        // Arafa Mkd -> Pyd
+        $trips = [
+            ['bus_id' => 1, 'route_id' => 3, 'departure_time' => '06:30', 'arrival_time' => '07:00', 'days_of_week' => $days],
+            ['bus_id' => 1, 'route_id' => 4, 'departure_time' => '13:40', 'arrival_time' => '14:10', 'days_of_week' => $days],
+            ['bus_id' => 1, 'route_id' => 3, 'departure_time' => '14:20', 'arrival_time' => '14:50', 'days_of_week' => $days],
+            ['bus_id' => 1, 'route_id' => 4, 'departure_time' => '17:20', 'arrival_time' => '17:50', 'days_of_week' => $days],
+            ['bus_id' => 1, 'route_id' => 3, 'departure_time' => '18:30', 'arrival_time' => '19:00', 'days_of_week' => $days],
+            ['bus_id' => 1, 'route_id' => 4, 'departure_time' => '20:15', 'arrival_time' => '20:45', 'days_of_week' => $days],
 
-        // Assume routes exist (adjust IDs if needed)
-        $routes = DB::table('routes')->pluck('id')->take(3);
+            ['bus_id' => 1, 'route_id' => 3, 'departure_time' => '09:40', 'arrival_time' => '10:10', 'days_of_week' => $days],
+        ];
 
-        if ($buses->count() < 2 || $routes->count() < 2) {
-            $this->command->warn('⚠️ Need at least 2 buses and 2 routes');
-            return;
+        // Ambadath Mkd -> Pyd
+        $trips[] = [
+            ['bus_id' => 2, 'route_id' => 3, 'departure_time' => '07:20', 'arrival_time' => '07:50', 'days_of_week' => $days],
+            ['bus_id' => 2, 'route_id' => 4, 'departure_time' => '08:05', 'arrival_time' => '08:35', 'days_of_week' => $days],
+            ['bus_id' => 2, 'route_id' => 3, 'departure_time' => '08:45', 'arrival_time' => '09:15', 'days_of_week' => $days],
+            ['bus_id' => 2, 'route_id' => 4, 'departure_time' => '10:10', 'arrival_time' => '10:40', 'days_of_week' => $days],
+            ['bus_id' => 2, 'route_id' => 3, 'departure_time' => '10:45', 'arrival_time' => '11:15', 'days_of_week' => $days],
+            ['bus_id' => 2, 'route_id' => 4, 'departure_time' => '11:20', 'arrival_time' => '11:50', 'days_of_week' => $days],
+            ['bus_id' => 2, 'route_id' => 3, 'departure_time' => '12:00', 'arrival_time' => '12:30', 'days_of_week' => $days],
+            ['bus_id' => 2, 'route_id' => 4, 'departure_time' => '12:30', 'arrival_time' => '13:00', 'days_of_week' => $days],
+            ['bus_id' => 2, 'route_id' => 3, 'departure_time' => '13:20', 'arrival_time' => '13:50', 'days_of_week' => $days],
+            ['bus_id' => 2, 'route_id' => 4, 'departure_time' => '20:15', 'arrival_time' => '20:45', 'days_of_week' => $days],
+
+            ['bus_id' => 13, 'route_id' => 4, 'departure_time' => '13:10', 'arrival_time' => '13:40', 'days_of_week' => $days],
+            ['bus_id' => 13, 'route_id' => 3, 'departure_time' => '13:55', 'arrival_time' => '14:25', 'days_of_week' => $days],
+            ['bus_id' => 13, 'route_id' => 4, 'departure_time' => '14:45', 'arrival_time' => '15:15', 'days_of_week' => $days],
+            ['bus_id' => 13, 'route_id' => 3, 'departure_time' => '15:20', 'arrival_time' => '15:50', 'days_of_week' => $days],
+            ['bus_id' => 13, 'route_id' => 4, 'departure_time' => '15:55', 'arrival_time' => '16:25', 'days_of_week' => $days],
+            ['bus_id' => 13, 'route_id' => 3, 'departure_time' => '16:45', 'arrival_time' => '17:15', 'days_of_week' => $days],
+        ];
+
+        // Madeena Mkd -> Pyd
+        $trips[] = [
+            ['bus_id' => 11, 'route_id' => 3, 'departure_time' => '07:00', 'arrival_time' => '07:30', 'days_of_week' => $days],
+            ['bus_id' => 11, 'route_id' => 4, 'departure_time' => '09:10', 'arrival_time' => '09:40', 'days_of_week' => $days],
+            ['bus_id' => 11, 'route_id' => 3, 'departure_time' => '10:10', 'arrival_time' => '10:40', 'days_of_week' => $days],
+            ['bus_id' => 11, 'route_id' => 4, 'departure_time' => '15:10', 'arrival_time' => '15:40', 'days_of_week' => $days],
+            ['bus_id' => 11, 'route_id' => 3, 'departure_time' => '15:50', 'arrival_time' => '16:20', 'days_of_week' => $days],
+
+            ['bus_id' => 14, 'route_id' => 4, 'departure_time' => '10:10', 'arrival_time' => '10:40', 'days_of_week' => $days],
+            ['bus_id' => 14, 'route_id' => 3, 'departure_time' => '11:20', 'arrival_time' => '11:15', 'days_of_week' => $days],
+        ];
+
+        // Fifa Mkd -> Pyd
+        $trips[] = [
+            ['bus_id' => 7, 'route_id' => 4, 'departure_time' => '07:10', 'arrival_time' => '07:40', 'days_of_week' => $days],
+            ['bus_id' => 7, 'route_id' => 3, 'departure_time' => '08:10', 'arrival_time' => '08:40', 'days_of_week' => $days],
+            ['bus_id' => 7, 'route_id' => 4, 'departure_time' => '16:20', 'arrival_time' => '16:50', 'days_of_week' => $days],
+            ['bus_id' => 7, 'route_id' => 3, 'departure_time' => '18:30', 'arrival_time' => '10:40', 'days_of_week' => $days],
+            ['bus_id' => 7, 'route_id' => 4, 'departure_time' => '19:15', 'arrival_time' => '19:45', 'days_of_week' => $days],
+        ];
+
+        foreach ($trips as $trip) {
+            DB::table('trips')->insert($trip);
         }
-
-        $days = json_encode([0, 1, 1, 1, 1, 1, 1]); // Weekdays
-
-        $trips = [];
-
-        foreach ($buses as $busIndex => $busId) {
-            foreach ($routes as $routeIndex => $routeId) {
-
-                $departure = match ($routeIndex) {
-                    0 => '06:00',
-                    1 => '12:00',
-                    2 => '18:00',
-                };
-
-                $arrival = match ($routeIndex) {
-                    0 => '10:00',
-                    1 => '16:00',
-                    2 => '22:00',
-                };
-
-                $trips[] = [
-                    'bus_id'         => $busId,
-                    'route_id'       => $routeId,
-                    'departure_time' => $departure,
-                    'arrival_time'   => $arrival,
-                    'days_of_week'   => $days,
-                    'status'         => 'Active',
-                    'created_at'     => $now,
-                    'updated_at'     => $now,
-                ];
-            }
-        }
-
-        DB::table('trips')->insert($trips);
     }
 }

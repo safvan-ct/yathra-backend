@@ -6,9 +6,13 @@ use App\Repositories\Interfaces\StationRepositoryInterface;
 
 class StationRepository implements StationRepositoryInterface
 {
-    public function paginate(array $filters = [], int $perPage = 15)
+    public function paginate(array $filters = [], int $perPage = 15, bool $withInfo = false)
     {
-        $query = Station::query()->with('city.district.state');
+        $query = Station::query();
+
+        if ($withInfo) {
+            $query->with('city.district.state');
+        }
 
         if (! empty($filters['search'])) {
             $query->where(function ($q) use ($filters) {

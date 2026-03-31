@@ -18,6 +18,7 @@ class Suggestion extends Model
         'suggestable_type',
         'suggestable_id',
         'type',
+        'proposed_for',
         'proposed_data',
         'status',
         'admin_id',

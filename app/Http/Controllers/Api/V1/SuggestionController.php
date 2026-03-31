@@ -26,13 +26,12 @@ class SuggestionController extends Controller
     {
         $this->suggestionService->validateUser($request);
 
-        $data                  = $request->validated();
-        $data['user_id']       = $request->user()->id;
-        $data['proposed_data'] = $request->input('proposed_data'); // Risky for production
+        $data            = $request->validated();
+        $data['user_id'] = $request->user()->id;
 
-        $suggestion = $this->suggestionService->submitSuggestion($data);
+        $this->suggestionService->submitSuggestion($data);
 
-        return ApiResponse::success(new SuggestionResource($suggestion), 'Suggestion created', 201);
+        return ApiResponse::success(null, 'Suggestion created', 201);
     }
 
     public function show(Request $request, int $id)

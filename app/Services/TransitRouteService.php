@@ -195,7 +195,7 @@ class TransitRouteService
         return strtoupper($origin->code . '_' . $destination->code . '_' . $pathSignature);
     }
 
-    protected function normalizeSignature(string $value): string
+    public function normalizeSignature(string $value): string
     {
         $normalized = strtoupper(trim($value));
         $normalized = preg_replace('/[^A-Z0-9_]+/', '_', $normalized) ?? $normalized;

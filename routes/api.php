@@ -58,6 +58,7 @@ Route::prefix('v1')->group(function () {
         Route::get('trips', [TripController::class, 'index']);
         Route::get('trips/active', [TripController::class, 'active']);
         Route::get('trips/today', [TripController::class, 'today']);
+        Route::get('trips/buses', [TripController::class, 'buses']); // new
         Route::get('trips/day/{dayIndex}', [TripController::class, 'byDay']);
         Route::get('trips/{id}', [TripController::class, 'show']);
 

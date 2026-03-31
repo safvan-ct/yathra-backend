@@ -27,7 +27,7 @@ class StationSeeder extends Seeder
             ['city_id' => 6, 'name' => 'Thiruvizhamkunnu', 'code' => 'TVK'],
             ['city_id' => 6, 'name' => 'Anakkatti', 'code' => 'AKT'],
             ['city_id' => 16, 'name' => 'Perinthalmanna', 'code' => 'PMNA'],
-            ['city_id' => 6, 'name' => 'Pallikkunnu', 'code' => 'PKN'],
+            ['city_id' => 6, 'name' => 'Payyanadam', 'code' => 'PYD'],
         ];
 
         foreach ($stations as $station) {

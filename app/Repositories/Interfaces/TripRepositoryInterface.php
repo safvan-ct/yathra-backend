@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories\Interfaces;
 
 interface TripRepositoryInterface
@@ -11,4 +12,7 @@ interface TripRepositoryInterface
 
     public function existsDuplicate(int $busId, int $routeId, string $departureTime, ?int $excludeId = null): bool;
     public function hasOverlap(int $busId, string $departureTime, string $arrivalTime, ?int $excludeId = null): bool;
+
+    public function tripBusesByWaitTime(int $from, int $to);
+    public function tripBusesWithoutWait(int $from, int $to);
 }

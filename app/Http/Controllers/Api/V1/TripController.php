@@ -74,4 +74,10 @@ class TripController
         $trips = $this->tripService->listTodayRunning($request->only(['route_id', 'bus_id', 'operator_id', 'status']), $request->input('per_page', 15));
         return ApiResponse::paginated(TripResource::collection($trips), "Today's running trips retrieved", 200);
     }
+
+    public function buses(Request $request): JsonResponse
+    {
+        $trips = $this->tripService->getBusesBetweenStations($request->input('from'), $request->input('to'));
+        return ApiResponse::success($trips, "Trips retrieved", 200);
+    }
 }

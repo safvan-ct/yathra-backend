@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories\Eloquent;
 
 use App\Models\Bus;
@@ -15,7 +16,8 @@ class BusRepository implements BusRepositoryInterface
         }
 
         if (! empty($filters['search'])) {
-            $query->where('bus_number', 'like', '%' . $filters['search'] . '%');
+            $query->where('bus_number', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('bus_name', 'like', '%' . $filters['search'] . '%');
         }
 
         if (isset($filters['is_active'])) {

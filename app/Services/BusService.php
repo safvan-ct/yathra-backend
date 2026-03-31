@@ -70,7 +70,7 @@ class BusService
         }
     }
 
-    protected function normalizeBusNumber(string $busNumber): string
+    public function normalizeBusNumber(string $busNumber): string
     {
         $clean = strtoupper($busNumber);
         $clean = preg_replace('/[^A-Z0-9]/', ' ', $clean);
@@ -80,15 +80,16 @@ class BusService
             throw ValidationException::withMessages(['bus_number' => ['bus_number format is invalid.']]);
         }
 
-        return $clean;
+        return str_replace(' ', '', $clean);
     }
 
-    protected function formatBusNumber(string $busNumber): string
+    public function formatBusNumber(string $busNumber): string
     {
         $normalized = $this->normalizeBusNumber($busNumber);
         preg_match('/^([A-Z]{2})\s?(\d{1,2})\s?([A-Z]{0,2})\s?(\d{3,4})$/', $normalized, $matches);
 
-        return sprintf('%s %02d %s %s', $matches[1], (int) $matches[2], $matches[3] ?? '', $matches[4]);
+        $number = sprintf('%s %02d %s %s', $matches[1], (int) $matches[2], $matches[3] ?? '', $matches[4]);
+        return trim(preg_replace('/\s+/', ' ', $number));
     }
 
     protected function assertSeatsPositive(int $totalSeats): void

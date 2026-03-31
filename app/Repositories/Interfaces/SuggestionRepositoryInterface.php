@@ -6,7 +6,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface SuggestionRepositoryInterface
 {
-    public function paginate(array $filters = [], int $perPage = 15): LengthAwarePaginator;
+    public function paginate(array $filters = [], int $perPage = 15, bool $withInfo = false): LengthAwarePaginator;
     public function create(array $data): Suggestion;
     public function find(int $id): ?Suggestion;
     public function update(int $id, array $data): bool;

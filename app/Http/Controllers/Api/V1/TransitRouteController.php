@@ -17,7 +17,7 @@ class TransitRouteController
 
     public function index(Request $request): JsonResponse
     {
-        $routes = $this->transitRouteService->list($request->only(['origin_id', 'destination_id', 'variant', 'is_active']), $request->input('per_page', 15));
+        $routes = $this->transitRouteService->list($request->only(['origin_id', 'destination_id', 'variant', 'search', 'is_active']), $request->input('per_page', 15));
         return ApiResponse::paginated(TransitRouteResource::collection($routes), 'Routes retrieved', 200);
     }
 

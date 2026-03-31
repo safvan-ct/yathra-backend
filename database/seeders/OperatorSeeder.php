@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -19,17 +20,6 @@ class OperatorSeeder extends Seeder
                 'email'      => 'info@ksrtc.in',
                 'address'    => 'Transport Bhavan, Thiruvananthapuram',
                 'is_public'  => true,
-                'is_active'  => true,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name'       => 'Kallada Travels',
-                'type'       => 'Private',
-                'phone'      => '0484-1234567',
-                'email'      => 'support@kalladatravels.com',
-                'address'    => 'Ernakulam, Kerala',
-                'is_public'  => false,
                 'is_active'  => true,
                 'created_at' => $now,
                 'updated_at' => $now,

@@ -86,6 +86,11 @@ class TripService
         return $this->tripRepository->paginate($filters, $perPage);
     }
 
+    public function getBusesBetweenStations(int $from, int $to)
+    {
+        return $this->tripRepository->tripBusesWithoutWait($from, $to);
+    }
+
     protected function validateTripInputs(array $data, ?int $excludeTripId = null): void
     {
         if (($data['arrival_time'] ?? null) <= ($data['departure_time'] ?? null)) {

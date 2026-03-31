@@ -63,6 +63,42 @@ class TransitRouteSeeder extends Seeder
                     ],
                 ],
             ],
+            [
+                'origin_id'      => 1,  // MKD
+                'destination_id' => 13, // PYD
+                'variant'        => 'via_clg',
+                'distance'       => 7,
+                'nodes'          => [
+                    [
+                        'station_id'           => 1,
+                        'stop_sequence'        => 1,
+                        'distance_from_origin' => 0,
+                    ],
+                    [
+                        'station_id'           => 13,
+                        'stop_sequence'        => 2,
+                        'distance_from_origin' => 7,
+                    ],
+                ],
+            ],
+            [
+                'origin_id'      => 13, // PYD
+                'destination_id' => 1,  // MKD
+                'variant'        => 'via_clg',
+                'distance'       => 7,
+                'nodes'          => [
+                    [
+                        'station_id'           => 13,
+                        'stop_sequence'        => 1,
+                        'distance_from_origin' => 0,
+                    ],
+                    [
+                        'station_id'           => 1,
+                        'stop_sequence'        => 2,
+                        'distance_from_origin' => 7,
+                    ],
+                ],
+            ],
         ];
 
         foreach ($routes as $route) {

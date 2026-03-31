@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('suggestable_type');
             $table->unsignedBigInteger('suggestable_id')->nullable();
 
+            $table->enum('proposed_for', ['Bus', 'Route', 'Trip', 'Stop', 'Route Stop', 'Other'])->default('Other');
             $table->json('proposed_data');
 
             $table->string('status')->default('Pending');

@@ -7,9 +7,13 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class SuggestionRepository implements SuggestionRepositoryInterface
 {
-    public function paginate(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    public function paginate(array $filters = [], int $perPage = 15, bool $withInfo = false): LengthAwarePaginator
     {
-        $query = Suggestion::with(['user', 'admin', 'suggestable']);
+        $query = Suggestion::with(['reward']);
+
+        if ($withInfo) {
+            $query->with(['user', 'admin', 'suggestable']);
+        }
 
         if (isset($filters['user_id'])) {
             $query->where('user_id', $filters['user_id']);
