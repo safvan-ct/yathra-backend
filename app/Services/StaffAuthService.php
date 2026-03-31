@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\Staff;
 use App\Repositories\Interfaces\StaffRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class StaffAuthService
@@ -11,9 +12,6 @@ class StaffAuthService
         protected StaffRepositoryInterface $staffRepository
     ) {}
 
-    /**
-     * Register a new staff member.
-     */
     public function register(string $name, string $email, string $password, int $roleId): Staff
     {
         $staff = $this->staffRepository->create([
@@ -28,9 +26,6 @@ class StaffAuthService
         return $staff;
     }
 
-    /**
-     * Login a staff member.
-     */
     public function login(string $email, string $password): ?string
     {
         $staff = $this->staffRepository->findByEmail($email);
@@ -54,34 +49,32 @@ class StaffAuthService
         return $staff->createToken('auth_token')->plainTextToken;
     }
 
-    /**
-     * Logout a staff member by revoking all tokens.
-     */
+    public function sessionLogin(array $credentials, bool $remember = false): bool
+    {
+        return Auth::guard('staff')->attempt($credentials, $remember);
+    }
+
     public function logout(Staff $staff): bool
     {
         $staff->tokens()->delete();
         return true;
     }
 
-    /**
-     * Get staff by email.
-     */
+    public function sessionLogout(): void
+    {
+        Auth::guard('staff')->logout();
+    }
+
     public function getByEmail(string $email): ?Staff
     {
         return $this->staffRepository->findByEmail($email);
     }
 
-    /**
-     * Get staff by ID with relations.
-     */
     public function getByIdWithRelations(int $id): ?Staff
     {
         return $this->staffRepository->getByIdWithRelations($id);
     }
 
-    /**
-     * Update login attempts.
-     */
     public function incrementLoginAttempts(Staff $staff): void
     {
         $this->staffRepository->update($staff->id, ['login_attempts' => $staff->login_attempts + 1, 'last_login_attempt' => now()]);
