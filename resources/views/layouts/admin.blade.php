@@ -136,6 +136,13 @@
                             </li>
                         </ul>
                     </li>
+
+                    <li class="pc-item">
+                        <a href="{{ route('backend.transit-routes.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-route"></i></span>
+                            <span class="pc-mtext">Transit Routes</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -8,8 +8,8 @@ class TransitRouteRepository implements TransitRouteRepositoryInterface
 {
     public function paginate(array $filters = [], int $perPage = 15)
     {
-        $query = TransitRoute::select(['id', 'origin_id', 'destination_id', 'path_signature', 'distance'])
-        ->with(['origin' => fn($q) => $q->select('id', 'name'), 'destination' => fn($q) => $q->select('id', 'name')]);
+        $query = TransitRoute::select(['id', 'origin_id', 'destination_id', 'path_signature', 'distance', 'is_active'])
+            ->with(['origin' => fn($q) => $q->select('id', 'name'), 'destination' => fn($q) => $q->select('id', 'name')]);
 
         if (! empty($filters['origin_id'])) {
             $query->where('origin_id', $filters['origin_id']);
@@ -28,15 +28,18 @@ class TransitRouteRepository implements TransitRouteRepositoryInterface
         }
 
         if (! empty($filters['search'])) {
-            $searchTerm = trim($filters['search']);
+            $searchTerm = is_array($filters['search']) ? ($filters['search']['value'] ?? '') : $filters['search'];
+            $searchTerm = trim((string) $searchTerm);
 
-            $query->where(function ($q) use ($searchTerm) {
-                $q->whereHas('origin', function ($q2) use ($searchTerm) {
-                    $q2->where('name', 'like', "%$searchTerm%");
-                })->orWhereHas('destination', function ($q3) use ($searchTerm) {
-                    $q3->where('name', 'like', "%$searchTerm%");
-                })->orWhere('route_code', 'like', "%$searchTerm%");
-            });
+            if ($searchTerm !== '') {
+                $query->where(function ($q) use ($searchTerm) {
+                    $q->whereHas('origin', function ($q2) use ($searchTerm) {
+                        $q2->where('name', 'like', "%$searchTerm%");
+                    })->orWhereHas('destination', function ($q3) use ($searchTerm) {
+                        $q3->where('name', 'like', "%$searchTerm%");
+                    })->orWhere('route_code', 'like', "%$searchTerm%");
+                });
+            }
         }
 
         return $query->orderBy('id', 'desc')->paginate($perPage);

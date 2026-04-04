@@ -9,9 +9,9 @@ class StationService
         protected StationRepositoryInterface $stationRepository
     ) {}
 
-    public function list(array $filters = [], int $perPage = 15)
+    public function list(array $filters = [], int $perPage = 15, bool $withInfo = false)
     {
-        return $this->stationRepository->paginate($filters, $perPage);
+        return $this->stationRepository->paginate($filters, $perPage, $withInfo);
     }
 
     public function create(array $data)

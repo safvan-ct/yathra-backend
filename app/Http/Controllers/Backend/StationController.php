@@ -20,6 +20,22 @@ class StationController extends Controller
         return view('backend.locations.station.index', compact('cities'));
     }
 
+    public function search(Request $request)
+    {
+        $term     = $request->get('q');
+        $stations = $this->stationService->list(['search' => $term], 50, true)->getCollection();
+
+        $results = $stations->map(function ($station) {
+            $cityName = $station->city ? $station->city->name : 'N/A';
+            return [
+                'value' => $station->id,
+                'label' => $station->name . " ($cityName)",
+            ];
+        });
+
+        return response()->json($results);
+    }
+
     public function datatable(Request $request)
     {
         $filters = [];

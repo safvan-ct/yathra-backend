@@ -83,9 +83,14 @@ class TransitRouteService
 
             $route = $this->routeRepository->update($id, $payload);
 
-            $this->activityLogService->log('route_updated', 'App\\Models\\TransitRoute', $id, $route?->toArray());
+            if (array_key_exists('nodes', $data)) {
+                $this->syncNodes($id, $originId, $destinationId, $data['nodes']);
+            }
 
-            return $route;
+            $updatedRoute = $this->routeRepository->find($id);
+            $this->activityLogService->log('route_updated', 'App\\Models\\TransitRoute', $id, $updatedRoute?->toArray());
+
+            return $updatedRoute;
         });
     }
 
@@ -99,6 +104,14 @@ class TransitRouteService
 
             return $deleted;
         });
+    }
+
+    public function toggleStatus(int $id, string $column = 'is_active')
+    {
+        $route = $this->get($id);
+        return $this->routeRepository->update($id, [
+            $column => ! $route->$column,
+        ]);
     }
 
     public function syncNodes(int $routeId, int $originId, int $destinationId, array $nodes): void

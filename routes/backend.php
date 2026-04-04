@@ -57,9 +57,13 @@ Route::prefix('backend')->name('backend.')->middleware(['auth:staff'])->group(fu
         Route::delete('/{id}', [StaffController::class, 'destroy'])->name('destroy');
     });
 
+    // Station specific search
+    Route::get('stations/search', [\App\Http\Controllers\Backend\StationController::class, 'search'])->name('stations.search');
+
     // Location Routes
     foreach (['states', 'districts', 'cities', 'stations'] as $type) {
         $controller = "App\\Http\\Controllers\\Backend\\" . ucfirst(Str::singular($type)) . "Controller";
+
         Route::prefix($type)->name($type . '.')->group(function () use ($controller) {
             Route::get('/', [$controller, 'index'])->name('index');
             Route::get('/datatable', [$controller, 'datatable'])->name('datatable');
@@ -75,4 +79,15 @@ Route::prefix('backend')->name('backend.')->middleware(['auth:staff'])->group(fu
             Route::post('/import-commit', [$controller, 'importCommit'])->name('import.commit');
         });
     }
+
+    // Transit Route Routes
+    Route::prefix('transit-routes')->name('transit-routes.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Backend\TransitRouteController::class, 'index'])->name('index');
+        Route::get('/datatable', [App\Http\Controllers\Backend\TransitRouteController::class, 'datatable'])->name('datatable');
+        Route::get('/form/{id?}', [App\Http\Controllers\Backend\TransitRouteController::class, 'form'])->name('form');
+        Route::post('/', [App\Http\Controllers\Backend\TransitRouteController::class, 'store'])->name('store');
+        Route::put('/{id}', [App\Http\Controllers\Backend\TransitRouteController::class, 'update'])->name('update');
+        Route::patch('/toggle-status/{id}', [App\Http\Controllers\Backend\TransitRouteController::class, 'toggleStatus'])->name('toggle-status');
+        Route::delete('/{id}', [App\Http\Controllers\Backend\TransitRouteController::class, 'destroy'])->name('destroy');
+    });
 });
