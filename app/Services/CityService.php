@@ -6,8 +6,7 @@ use App\Repositories\Interfaces\CityRepositoryInterface;
 class CityService
 {
     public function __construct(
-        protected CityRepositoryInterface $cityRepository,
-        protected ActivityLogService $activityLogService
+        protected CityRepositoryInterface $cityRepository
     ) {}
 
     public function list(array $filters = [], int $perPage = 15)
@@ -17,9 +16,7 @@ class CityService
 
     public function create(array $data)
     {
-        $city = $this->cityRepository->create($data);
-        $this->activityLogService->log('city_created', 'App\\Models\\City', $city->id, $city->toArray());
-        return $city;
+        return $this->cityRepository->create($data);
     }
 
     public function get(int $id)
@@ -29,21 +26,61 @@ class CityService
 
     public function update(int $id, array $data)
     {
-        $city = $this->cityRepository->update($id, $data);
-        if ($city) {
-            $this->activityLogService->log('city_updated', 'App\\Models\\City', $city->id, $city->toArray());
-        }
-
-        return $city;
+        return $this->cityRepository->update($id, $data);
     }
 
     public function delete(int $id)
     {
-        $deleted = $this->cityRepository->delete($id);
-        if ($deleted) {
-            $this->activityLogService->log('city_deleted', 'App\\Models\\City', $id, null);
+        return $this->cityRepository->delete($id);
+    }
+
+    public function validateImport(array $rows)
+    {
+        $results = ['valid' => [], 'invalid' => []];
+
+        foreach ($rows as $index => $row) {
+            $errors = [];
+            if (empty($row['name'])) {
+                $errors[] = "Name is required";
+            }
+
+            if (empty($row['state_id'])) {
+                $errors[] = "State ID is required";
+            }
+
+            if (empty($row['district_id'])) {
+                $errors[] = "District ID is required";
+            }
+
+            if (count($errors) > 0) {
+                $row['errors']        = $errors;
+                $results['invalid'][] = $row;
+            } else {
+                $results['valid'][] = [
+                    'name'        => $row['name'],
+                    'local_name'  => $row['local_name'] ?? $row['name'],
+                    'code'        => $row['code'],
+                    'district_id' => $row['district_id'],
+                    'is_active'   => true,
+                    'created_at'  => now()->format('Y-m-d H:i:s'),
+                    'updated_at'  => now()->format('Y-m-d H:i:s'),
+                ];
+            }
         }
 
-        return $deleted;
+        return $results;
+    }
+
+    public function bulkStore(array $data)
+    {
+        return $this->cityRepository->bulkCreate($data);
+    }
+
+    public function toggleStatus(int $id, string $column = 'is_active')
+    {
+        $city = $this->get($id);
+        return $this->cityRepository->update($id, [
+            $column => ! $city->$column,
+        ]);
     }
 }

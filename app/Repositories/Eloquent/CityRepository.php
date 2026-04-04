@@ -37,6 +37,11 @@ class CityRepository implements CityRepositoryInterface
         return City::create($data);
     }
 
+    public function bulkCreate(array $data)
+    {
+        return City::insert($data);
+    }
+
     public function update(int $id, array $data)
     {
         $city = City::find($id);

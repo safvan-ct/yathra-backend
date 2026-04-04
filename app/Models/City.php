@@ -9,6 +9,8 @@ class City extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected array $dontLog = [];
+
     protected $fillable = ['district_id', 'name', 'local_name', 'code', 'is_active'];
 
     protected $casts = [
