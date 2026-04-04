@@ -9,6 +9,8 @@ class District extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected array $dontLog = [];
+
     protected $fillable = ['state_id', 'name', 'local_name', 'code', 'is_active'];
 
     protected $casts = [

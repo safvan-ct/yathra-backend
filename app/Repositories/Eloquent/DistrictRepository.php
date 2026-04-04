@@ -37,6 +37,11 @@ class DistrictRepository implements DistrictRepositoryInterface
         return District::create($data);
     }
 
+    public function bulkCreate(array $data)
+    {
+        return District::insert($data);
+    }
+
     public function update(int $id, array $data)
     {
         $district = District::find($id);
