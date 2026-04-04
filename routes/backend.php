@@ -57,9 +57,6 @@ Route::prefix('backend')->name('backend.')->middleware(['auth:staff'])->group(fu
         Route::delete('/{id}', [StaffController::class, 'destroy'])->name('destroy');
     });
 
-    // Station specific search
-    Route::get('stations/search', [\App\Http\Controllers\Backend\StationController::class, 'search'])->name('stations.search');
-
     // Location Routes
     foreach (['states', 'districts', 'cities', 'stations'] as $type) {
         $controller = "App\\Http\\Controllers\\Backend\\" . ucfirst(Str::singular($type)) . "Controller";
@@ -67,6 +64,7 @@ Route::prefix('backend')->name('backend.')->middleware(['auth:staff'])->group(fu
         Route::prefix($type)->name($type . '.')->group(function () use ($controller) {
             Route::get('/', [$controller, 'index'])->name('index');
             Route::get('/datatable', [$controller, 'datatable'])->name('datatable');
+            Route::get('/search', [$controller, 'search'])->name('search');
             Route::get('/form/{id?}', [$controller, 'form'])->name('form');
             Route::post('/', [$controller, 'store'])->name('store');
             Route::put('/{id}', [$controller, 'update'])->name('update');

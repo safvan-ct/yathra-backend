@@ -4,9 +4,6 @@
     <div class="selectFilter" style="display:none; min-width: 250px;">
         <select class="form-control" id="getFilter">
             <option value="">All Districts</option>
-            @foreach ($districts as $district)
-                <option value="{{ $district->id }}">{{ $district->name }}</option>
-            @endforeach
         </select>
     </div>
     <div class="row">
@@ -106,17 +103,13 @@
             ]);
 
             if (typeof Choices !== 'undefined') {
-                const filterSelect = new Choices('#getFilter', {
-                    searchEnabled: true,
-                    itemSelectText: '',
-                    allowHTML: true,
-                    shouldSort: false,
-                    removeItemButton: true,
-                });
-
-                $('#getFilter').on('change', function() {
-                    table.ajax.reload();
-                });
+                const el = document.getElementById('getFilter');
+                if (el) {
+                    CRUD.initAjaxChoices(el, "{{ route('backend.districts.search') }}", "Search district...");
+                    el.addEventListener('change', function() {
+                        table.ajax.reload();
+                    });
+                }
             }
         });
     </script>

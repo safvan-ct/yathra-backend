@@ -16,8 +16,7 @@ class StationController extends Controller
 
     public function index()
     {
-        $cities = $this->cityService->list([], 1000)->getCollection();
-        return view('backend.locations.station.index', compact('cities'));
+        return view('backend.locations.station.index');
     }
 
     public function search(Request $request)
@@ -69,11 +68,14 @@ class StationController extends Controller
     public function form($id = 0)
     {
         $station = null;
+        $cities  = collect();
+
         if ($id > 0) {
             $station = $this->stationService->get($id);
+            if ($station && $station->city) {
+                $cities->push($station->city);
+            }
         }
-
-        $cities = $this->cityService->list([], 500)->getCollection();
 
         return view('backend.locations.station.form', compact('station', 'id', 'cities'));
     }

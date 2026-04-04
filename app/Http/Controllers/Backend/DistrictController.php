@@ -16,8 +16,23 @@ class DistrictController extends Controller
 
     public function index()
     {
-        $states = $this->stateService->list([], 1000)->getCollection();
-        return view('backend.locations.district.index', compact('states'));
+        return view('backend.locations.district.index');
+    }
+
+    public function search(Request $request)
+    {
+        $term      = $request->get('q');
+        $districts = $this->districtService->list(['search' => $term], 50)->getCollection();
+
+        $results = $districts->map(function ($district) {
+            $stateName = $district->state ? $district->state->name : 'N/A';
+            return [
+                'value' => $district->id,
+                'label' => $district->name . " ($stateName)",
+            ];
+        });
+
+        return response()->json($results);
     }
 
     public function datatable(Request $request)
@@ -53,11 +68,14 @@ class DistrictController extends Controller
     public function form($id = 0)
     {
         $district = null;
+        $states   = collect();
+
         if ($id > 0) {
             $district = $this->districtService->get($id);
+            if ($district && $district->state) {
+                $states->push($district->state);
+            }
         }
-
-        $states = $this->stateService->list([], 100)->getCollection();
 
         return view('backend.locations.district.form', compact('district', 'id', 'states'));
     }

@@ -137,33 +137,6 @@
             });
         }
 
-        function initStationChoices(element) {
-            if (typeof Choices === 'undefined') return;
-
-            const choice = new Choices(element, {
-                searchEnabled: true,
-                itemSelectText: '',
-                placeholderValue: 'Select station...',
-                searchResultLimit: 50,
-            });
-
-            let searchTimeout;
-            element.addEventListener('search', function(event) {
-                const searchTerm = event.detail.value;
-                if (searchTerm.length >= 2) {
-                    clearTimeout(searchTimeout);
-                    searchTimeout = setTimeout(() => {
-                        fetch("{{ route('backend.stations.search') }}?q=" + encodeURIComponent(
-                                searchTerm))
-                            .then(response => response.json())
-                            .then(data => {
-                                choice.clearChoices();
-                                choice.setChoices(data, 'value', 'label', true);
-                            });
-                    }, 300);
-                }
-            });
-        }
 
         $('#addStopBtn').on('click', function() {
             const row = `
@@ -195,7 +168,10 @@
             $('#stopsBody').append(row);
 
             const newSelect = $('#stopsBody').find(`[name="nodes[${stopIndex}][station_id]"]`)[0];
-            initStationChoices(newSelect);
+            if (typeof CRUD !== 'undefined') {
+                CRUD.initAjaxChoices(newSelect, "{{ route('backend.stations.search') }}",
+                    "Select station...");
+            }
 
             stopIndex++;
             updateSequences();
@@ -216,7 +192,10 @@
 
         // Initialize existing choices
         document.querySelectorAll('.choices-select, .station-select').forEach(element => {
-            initStationChoices(element);
+            if (typeof CRUD !== 'undefined') {
+                CRUD.initAjaxChoices(element, "{{ route('backend.stations.search') }}",
+                    "Select station...");
+            }
         });
     });
 </script>

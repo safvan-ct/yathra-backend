@@ -220,4 +220,37 @@ class CRUD {
             },
         };
     }
+
+    // reusable ajax choices initialization
+    static initAjaxChoices(element, fetchUrl, placeholder = "Search...") {
+        if (typeof Choices === "undefined" || !element) return null;
+
+        const choice = new Choices(element, {
+            searchEnabled: true,
+            itemSelectText: "",
+            placeholderValue: placeholder,
+            searchResultLimit: 50,
+        });
+
+        let searchTimeout;
+        element.addEventListener("search", function (event) {
+            const searchTerm = event.detail.value;
+            if (searchTerm.length >= 2) {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    fetch(`${fetchUrl}?q=${encodeURIComponent(searchTerm)}`)
+                        .then((response) => response.json())
+                        .then((data) => {
+                            choice.clearChoices();
+                            choice.setChoices(data, "value", "label", true);
+                        })
+                        .catch((err) =>
+                            console.error("Choices AJAX error", err),
+                        );
+                }, 300);
+            }
+        });
+
+        return choice;
+    }
 }

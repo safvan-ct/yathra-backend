@@ -16,8 +16,23 @@ class CityController extends Controller
 
     public function index()
     {
-        $districts = $this->districtService->list([], 1000)->getCollection();
-        return view('backend.locations.city.index', compact('districts'));
+        return view('backend.locations.city.index');
+    }
+
+    public function search(Request $request)
+    {
+        $term   = $request->get('q');
+        $cities = $this->cityService->list(['search' => $term], 50)->getCollection();
+
+        $results = $cities->map(function ($city) {
+            $districtName = $city->district ? $city->district->name : 'N/A';
+            return [
+                'value' => $city->id,
+                'label' => $city->name . " ($districtName)",
+            ];
+        });
+
+        return response()->json($results);
     }
 
     public function datatable(Request $request)
@@ -52,12 +67,15 @@ class CityController extends Controller
 
     public function form($id = 0)
     {
-        $city = null;
+        $city      = null;
+        $districts = collect();
+
         if ($id > 0) {
             $city = $this->cityService->get($id);
+            if ($city && $city->district) {
+                $districts->push($city->district);
+            }
         }
-
-        $districts = $this->districtService->list([], 200)->getCollection();
 
         return view('backend.locations.city.form', compact('city', 'id', 'districts'));
     }

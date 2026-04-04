@@ -17,6 +17,21 @@ class StateController extends Controller
         return view('backend.locations.state.index');
     }
 
+    public function search(Request $request)
+    {
+        $term   = $request->get('q');
+        $states = $this->stateService->list(['search' => $term], 50)->getCollection();
+
+        $results = $states->map(function ($state) {
+            return [
+                'value' => $state->id,
+                'label' => $state->name,
+            ];
+        });
+
+        return response()->json($results);
+    }
+
     public function datatable()
     {
         $query = $this->stateService->list([], 1000)->getCollection(); // Get all for datatable

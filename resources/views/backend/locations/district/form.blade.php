@@ -26,7 +26,7 @@
         <select class="form-select choices-select" name="state_id" id="state_id" required>
             <option value="">Select State</option>
             @foreach ($states as $state)
-                <option value="{{ $state->id }}" @if ($district && $district->state_id == $state->id) selected @endif>
+                <option value="{{ $state->id }}" selected>
                     {{ $state->name }}
                 </option>
             @endforeach
@@ -43,12 +43,8 @@
 </div>
 
 <script>
-    if (typeof Choices !== 'undefined') {
+    if (typeof CRUD !== 'undefined' && typeof Choices !== 'undefined') {
         const element = document.querySelector('.choices-select');
-        new Choices(element, {
-            searchEnabled: true,
-            itemSelectText: '',
-            placeholderValue: 'Select state...',
-        });
+        CRUD.initAjaxChoices(element, "{{ route('backend.states.search') }}", "Select state...");
     }
 </script>
