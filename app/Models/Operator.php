@@ -9,6 +9,8 @@ class Operator extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected array $dontLog = [];
+
     protected $fillable = [
         'name',
         'type',

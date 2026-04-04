@@ -32,13 +32,13 @@ class StationSeeder extends Seeder
 
         foreach ($stations as $station) {
             Station::create([
-                'city_id'     => $station['city_id'],
-                'name'        => $station['name'],
-                'code'        => $station['code'],
-                'locale_name' => null,
-                'lat'         => $faker->latitude(10, 12),
-                'long'        => $faker->longitude(75, 77),
-                'type'        => $faker->randomElement(['Hub', 'Stop', 'Terminal']),
+                'city_id'    => $station['city_id'],
+                'name'       => $station['name'],
+                'code'       => $station['code'],
+                'local_name' => null,
+                'lat'        => $faker->latitude(10, 12),
+                'long'       => $faker->longitude(75, 77),
+                'type'       => $faker->randomElement(['Hub', 'Stop', 'Terminal']),
             ]);
         }
     }

@@ -35,6 +35,36 @@
         .choices.is-open .choices__inner {
             box-shadow: none !important;
         }
+
+        /* DataTable Control Alignment */
+        .selectFilter {
+            margin-bottom: 0 !important;
+            vertical-align: middle;
+        }
+
+        .dataTables_filter {
+            margin-bottom: 0 !important;
+        }
+
+        .dataTables_filter label {
+            margin-bottom: 0 !important;
+            display: flex !important;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .choices {
+            margin-bottom: 0 !important;
+            min-width: 200px;
+        }
+
+        .choices__inner {
+            min-height: 38px !important;
+            padding: 4px 10px !important;
+            background: #fff !important;
+            border-radius: 8px !important;
+            border: 1px solid #dee2e6 !important;
+        }
     </style>
 
     @stack('styles')
@@ -74,13 +104,35 @@
                         </a>
                         <ul class="pc-submenu">
                             <li class="pc-item">
-                                <a class="pc-link" href="">Permissions</a>
+                                <a class="pc-link" href="{{ route('backend.permissions.index') }}">Permissions</a>
                             </li>
                             <li class="pc-item">
-                                <a class="pc-link" href="">Roles</a>
+                                <a class="pc-link" href="{{ route('backend.roles.index') }}">Roles</a>
                             </li>
                             <li class="pc-item">
-                                <a class="pc-link" href="">Staffs</a>
+                                <a class="pc-link" href="{{ route('backend.staffs.index') }}">Staffs</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="pc-item pc-hasmenu">
+                        <a href="javascript:void(0)" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-map-pin"></i></span>
+                            <span class="pc-mtext">Locations</span>
+                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+                        </a>
+                        <ul class="pc-submenu">
+                            <li class="pc-item">
+                                <a class="pc-link" href="{{ route('backend.states.index') }}">States</a>
+                            </li>
+                            <li class="pc-item">
+                                <a class="pc-link" href="{{ route('backend.districts.index') }}">Districts</a>
+                            </li>
+                            <li class="pc-item">
+                                <a class="pc-link" href="{{ route('backend.cities.index') }}">Cities</a>
+                            </li>
+                            <li class="pc-item">
+                                <a class="pc-link" href="{{ route('backend.stations.index') }}">Stations</a>
                             </li>
                         </ul>
                     </li>
@@ -248,8 +300,9 @@
             $('#dataTable_wrapper .dataTables_filter').parent().css({
                 display: 'flex',
                 justifyContent: 'flex-end',
-                gap: '10px',
-                alignItems: 'center'
+                gap: '15px',
+                alignItems: 'center',
+                flexWrap: 'wrap'
             });
         });
 

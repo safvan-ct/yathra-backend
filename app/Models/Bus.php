@@ -9,6 +9,8 @@ class Bus extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected array $dontLog = [];
+
     protected $fillable = [
         'operator_id',
         'bus_name',

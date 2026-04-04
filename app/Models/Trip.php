@@ -9,6 +9,8 @@ class Trip extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected array $dontLog = [];
+
     protected $fillable = [
         'bus_id',
         'route_id',

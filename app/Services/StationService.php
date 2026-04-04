@@ -6,8 +6,7 @@ use App\Repositories\Interfaces\StationRepositoryInterface;
 class StationService
 {
     public function __construct(
-        protected StationRepositoryInterface $stationRepository,
-        protected ActivityLogService $activityLogService
+        protected StationRepositoryInterface $stationRepository
     ) {}
 
     public function list(array $filters = [], int $perPage = 15)
@@ -17,9 +16,7 @@ class StationService
 
     public function create(array $data)
     {
-        $station = $this->stationRepository->create($data);
-        $this->activityLogService->log('station_created', 'App\\Models\\Station', $station->id, $station->toArray());
-        return $station;
+        return $this->stationRepository->create($data);
     }
 
     public function get(int $id)
@@ -29,21 +26,57 @@ class StationService
 
     public function update(int $id, array $data)
     {
-        $station = $this->stationRepository->update($id, $data);
-        if ($station) {
-            $this->activityLogService->log('station_updated', 'App\\Models\\Station', $station->id, $station->toArray());
-        }
-
-        return $station;
+        return $this->stationRepository->update($id, $data);
     }
 
     public function delete(int $id)
     {
-        $deleted = $this->stationRepository->delete($id);
-        if ($deleted) {
-            $this->activityLogService->log('station_deleted', 'App\\Models\\Station', $id, null);
+        return $this->stationRepository->delete($id);
+    }
+
+    public function validateImport(array $rows)
+    {
+        $results = ['valid' => [], 'invalid' => []];
+
+        foreach ($rows as $index => $row) {
+            $errors = [];
+            if (empty($row['name'])) {
+                $errors[] = "Name is required";
+            }
+            if (empty($row['city_id'])) {
+                $errors[] = "City ID is required";
+            }
+
+            if (count($errors) > 0) {
+                $row['errors']        = $errors;
+                $results['invalid'][] = $row;
+            } else {
+                $results['valid'][] = [
+                    'name'       => $row['name'],
+                    'local_name' => $row['local_name'] ?? $row['name'],
+                    'city_id'    => $row['city_id'],
+                    'latitude'   => $row['latitude'] ?? null,
+                    'longitude'  => $row['longitude'] ?? null,
+                    'is_active'  => true,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
         }
 
-        return $deleted;
+        return $results;
+    }
+
+    public function bulkStore(array $data)
+    {
+        return $this->stationRepository->bulkCreate($data);
+    }
+
+    public function toggleStatus(int $id, string $column = 'is_active')
+    {
+        $station = $this->get($id);
+        return $this->stationRepository->update($id, [
+            $column => ! $station->$column,
+        ]);
     }
 }

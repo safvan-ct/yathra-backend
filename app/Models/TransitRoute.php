@@ -9,6 +9,8 @@ class TransitRoute extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected array $dontLog = [];
+
     protected $table = 'routes';
 
     protected $fillable = [

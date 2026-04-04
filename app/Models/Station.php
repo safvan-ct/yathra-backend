@@ -9,7 +9,9 @@ class Station extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['city_id', 'name', 'code', 'locale_name', 'lat', 'long', 'type', 'is_active'];
+    protected array $dontLog = [];
+
+    protected $fillable = ['city_id', 'name', 'code', 'local_name', 'lat', 'long', 'type', 'is_active'];
 
     protected $casts = [
         'lat'  => 'decimal:8',

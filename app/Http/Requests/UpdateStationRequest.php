@@ -16,14 +16,14 @@ class UpdateStationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'city_id'     => 'sometimes|exists:cities,id',
-            'name'        => 'sometimes|string|max:255',
-            'code'        => 'sometimes|string|max:10|unique:stations,code,' . $this->route('station'),
-            'locale_name' => 'nullable|string|max:255',
-            'lat'         => 'sometimes|numeric|between:-90,90',
-            'long'        => 'sometimes|numeric|between:-180,180',
-            'type'        => 'sometimes|in:Hub,Stop,Terminal',
-            'is_active'   => 'sometimes|boolean',
+            'city_id'    => 'sometimes|exists:cities,id',
+            'name'       => 'sometimes|string|max:255',
+            'code'       => 'sometimes|string|max:10|unique:stations,code,' . $this->route('station'),
+            'local_name' => 'nullable|string|max:255',
+            'lat'        => 'sometimes|numeric|between:-90,90',
+            'long'       => 'sometimes|numeric|between:-180,180',
+            'type'       => 'sometimes|in:Hub,Stop,Terminal',
+            'is_active'  => 'sometimes|boolean',
         ];
     }
 }

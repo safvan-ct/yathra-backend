@@ -18,7 +18,7 @@ class StationRepository implements StationRepositoryInterface
             $query->where(function ($q) use ($filters) {
                 $q->where('name', 'like', '%' . $filters['search'] . '%')
                     ->orWhere('code', 'like', '%' . $filters['search'] . '%')
-                    ->orWhere('locale_name', 'like', '%' . $filters['search'] . '%');
+                    ->orWhere('local_name', 'like', '%' . $filters['search'] . '%');
             });
         }
 
@@ -45,6 +45,11 @@ class StationRepository implements StationRepositoryInterface
     public function create(array $data)
     {
         return Station::create($data);
+    }
+
+    public function bulkCreate(array $data)
+    {
+        return Station::insert($data);
     }
 
     public function update(int $id, array $data)

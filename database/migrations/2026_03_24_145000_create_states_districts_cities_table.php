@@ -45,7 +45,7 @@ return new class extends Migration
             $table->foreignId('city_id')->constrained('cities')->onDelete('cascade');
             $table->string('name');
             $table->string('code', 10)->unique();
-            $table->string('locale_name')->nullable();
+            $table->string('local_name')->nullable();
             $table->decimal('lat', 10, 8);
             $table->decimal('long', 11, 8);
             $table->enum('type', ['Hub', 'Stop', 'Terminal']);
