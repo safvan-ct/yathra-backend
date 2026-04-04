@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('trust_level', ['low', 'medium', 'high'])->default('low');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

@@ -6,25 +6,16 @@ use App\Repositories\Interfaces\StaffRepositoryInterface;
 
 class StaffRepository implements StaffRepositoryInterface
 {
-    /**
-     * Find staff by email.
-     */
     public function findByEmail(string $email)
     {
         return Staff::where('email', $email)->first();
     }
 
-    /**
-     * Create a new staff member.
-     */
     public function create(array $data)
     {
         return Staff::create($data);
     }
 
-    /**
-     * Update staff.
-     */
     public function update(int $id, array $data)
     {
         $staff = Staff::find($id);
@@ -35,19 +26,54 @@ class StaffRepository implements StaffRepositoryInterface
         return null;
     }
 
-    /**
-     * Get staff by ID.
-     */
     public function getById(int $id)
     {
         return Staff::find($id);
     }
 
-    /**
-     * Get staff by ID with relations.
-     */
     public function getByIdWithRelations(int $id)
     {
         return Staff::with(['roles.permissions'])->find($id);
+    }
+
+    public function getForDataTable(?int $roleId = null)
+    {
+        $query = Staff::query()->with('roles');
+
+        if ($roleId > 0) {
+            $query->whereHas('roles', function ($q) use ($roleId) {
+                $q->where('roles.id', $roleId);
+            });
+        }
+
+        return $query;
+    }
+
+    public function toggleStatus(int $id, string $column): bool
+    {
+        $staff = Staff::find($id);
+        if ($staff) {
+            $staff->$column = ! $staff->$column;
+            return $staff->save();
+        }
+        return false;
+    }
+
+    public function delete(int $id)
+    {
+        $staff = Staff::find($id);
+        if ($staff) {
+            return $staff->delete();
+        }
+        return false;
+    }
+
+    public function syncRoles(int $staffId, array $roleIds)
+    {
+        $staff = Staff::find($staffId);
+        if ($staff) {
+            return $staff->roles()->sync($roleIds);
+        }
+        return false;
     }
 }

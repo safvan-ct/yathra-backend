@@ -14,8 +14,8 @@ return new class extends Migration
             $table->string('local_name')->nullable();
             $table->string('code')->unique();
             $table->boolean('is_active')->default(true);
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('districts', function (Blueprint $table) {
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('local_name')->nullable();
             $table->string('code')->unique();
             $table->boolean('is_active')->default(true);
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('cities', function (Blueprint $table) {
@@ -36,8 +36,8 @@ return new class extends Migration
             $table->string('local_name')->nullable();
             $table->string('code')->unique();
             $table->boolean('is_active')->default(true);
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('stations', function (Blueprint $table) {

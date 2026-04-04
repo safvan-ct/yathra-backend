@@ -14,9 +14,8 @@ class Staff extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
 
-    /**
-     * Get the attributes that should be cast.
-     */
+    protected array $dontLog = ['password', 'remember_token'];
+
     protected function casts(): array
     {
         return [
@@ -26,30 +25,16 @@ class Staff extends Authenticatable
         ];
     }
 
-    /**
-     * Get the table associated with the model.
-     */
-    protected $table = 'staff';
-
-    /**
-     * Get the roles associated with the staff.
-     */
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'staff_role');
     }
 
-    /**
-     * Check if staff has a specific role.
-     */
     public function hasRole($role): bool
     {
         return $this->roles()->where('name', $role)->exists();
     }
 
-    /**
-     * Check if staff has a permission.
-     */
     public function hasPermission($permission): bool
     {
         foreach ($this->roles as $role) {
@@ -60,9 +45,6 @@ class Staff extends Authenticatable
         return false;
     }
 
-    /**
-     * Get all permissions for the staff.
-     */
     public function getPermissions()
     {
         $permissions = [];
