@@ -1,11 +1,26 @@
 <?php
 namespace App\Providers;
 
+use App\Models\Bus;
+use App\Models\City;
+use App\Models\District;
+use App\Models\Operator;
+use App\Models\Permission;
+use App\Models\Role;
+use App\Models\Staff;
+use App\Models\State;
+use App\Models\Station;
+use App\Models\TransitRoute;
+use App\Models\Trip;
+use App\Models\User;
+use App\Observers\ActivityLogObserver;
 use App\Repositories\Eloquent\BusRepository;
 use App\Repositories\Eloquent\CityRepository;
 use App\Repositories\Eloquent\DistrictRepository;
 use App\Repositories\Eloquent\OperatorRepository;
+use App\Repositories\Eloquent\PermissionRepository;
 use App\Repositories\Eloquent\RewardRepository;
+use App\Repositories\Eloquent\RoleRepository;
 use App\Repositories\Eloquent\RouteNodeRepository;
 use App\Repositories\Eloquent\StaffRepository;
 use App\Repositories\Eloquent\StateRepository;
@@ -18,7 +33,9 @@ use App\Repositories\Interfaces\BusRepositoryInterface;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\DistrictRepositoryInterface;
 use App\Repositories\Interfaces\OperatorRepositoryInterface;
+use App\Repositories\Interfaces\PermissionRepositoryInterface;
 use App\Repositories\Interfaces\RewardRepositoryInterface;
+use App\Repositories\Interfaces\RoleRepositoryInterface;
 use App\Repositories\Interfaces\RouteNodeRepositoryInterface;
 use App\Repositories\Interfaces\StaffRepositoryInterface;
 use App\Repositories\Interfaces\StateRepositoryInterface;
@@ -51,6 +68,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TripRepositoryInterface::class, TripRepository::class);
         $this->app->bind(SuggestionRepositoryInterface::class, SuggestionRepository::class);
         $this->app->bind(RewardRepositoryInterface::class, RewardRepository::class);
+        $this->app->bind(PermissionRepositoryInterface::class, PermissionRepository::class);
+        $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
     }
 
     /**
@@ -59,5 +78,24 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
+
+        $models = [
+            Staff::class,
+            User::class,
+            Role::class,
+            Permission::class,
+            State::class,
+            District::class,
+            City::class,
+            Station::class,
+            Bus::class,
+            Operator::class,
+            TransitRoute::class,
+            Trip::class,
+        ];
+
+        foreach ($models as $model) {
+            $model::observe(ActivityLogObserver::class);
+        }
     }
 }
