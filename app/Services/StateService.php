@@ -36,4 +36,48 @@ class StateService
         $deleted = $this->stateRepository->delete($id);
         return $deleted;
     }
+
+    public function validateImport(array $rows)
+    {
+        $results = ['valid' => [], 'invalid' => []];
+
+        foreach ($rows as $index => $row) {
+            $errors = [];
+            if (empty($row['name'])) {
+                $errors[] = "Name is required";
+            }
+            if (empty($row['code'])) {
+                $errors[] = "Code is required";
+            }
+
+            if (count($errors) > 0) {
+                $row['errors']        = $errors;
+                $results['invalid'][] = $row;
+            } else {
+                $results['valid'][] = [
+                    'name'       => $row['name'],
+                    'local_name' => $row['local_name'] ?? $row['name'],
+                    'code'       => strtoupper($row['code']),
+                    'is_active'  => true,
+                    'created_at' => now()->format('Y-m-d H:i:s'),
+                    'updated_at' => now()->format('Y-m-d H:i:s'),
+                ];
+            }
+        }
+
+        return $results;
+    }
+
+    public function bulkStore(array $data)
+    {
+        return $this->stateRepository->bulkCreate($data);
+    }
+
+    public function toggleStatus(int $id, string $column = 'is_active')
+    {
+        $state = $this->get($id);
+        return $this->stateRepository->update($id, [
+            $column => ! $state->$column,
+        ]);
+    }
 }

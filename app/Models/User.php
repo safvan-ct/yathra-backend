@@ -1,7 +1,6 @@
 <?php
 namespace App\Models;
 
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,8 +12,9 @@ use Laravel\Sanctum\HasApiTokens;
 #[Hidden(['pin'])]
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
+
+    protected array $dontLog = ['pin', 'remember_token'];
 
     protected function casts(): array
     {

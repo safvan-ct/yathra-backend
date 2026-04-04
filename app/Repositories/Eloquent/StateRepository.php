@@ -33,6 +33,11 @@ class StateRepository implements StateRepositoryInterface
         return State::create($data);
     }
 
+    public function bulkCreate(array $data)
+    {
+        return State::insert($data);
+    }
+
     public function update(int $id, array $data)
     {
         $state = State::find($id);

@@ -9,6 +9,8 @@ class State extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected array $dontLog = [];
+
     protected $fillable = ['name', 'local_name', 'code', 'is_active'];
 
     protected $casts = [
