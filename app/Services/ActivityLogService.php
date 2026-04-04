@@ -7,16 +7,22 @@ use Illuminate\Support\Facades\Request;
 
 class ActivityLogService
 {
-    /**
-     * Log an activity.
-     */
     public function log(string $action, ?string $modelType = null, ?int $modelId = null, ?array $changes = null): ActivityLog
     {
-        $user = auth('sanctum')->user() ?? Auth::user();
+        $actorId   = null;
+        $actorType = null;
+
+        if (Auth::guard('staff')->check()) {
+            $actorId   = Auth::guard('staff')->id();
+            $actorType = \App\Models\Staff::class;
+        } elseif (Auth::guard('web')->check()) {
+            $actorId   = Auth::guard('web')->id();
+            $actorType = \App\Models\User::class;
+        }
 
         return ActivityLog::create([
-            'actor_type' => $user ? get_class($user) : null,
-            'actor_id'   => $user?->id,
+            'actor_type' => $actorType,
+            'actor_id'   => $actorId,
             'action'     => $action,
             'model_type' => $modelType,
             'model_id'   => $modelId,
@@ -24,21 +30,5 @@ class ActivityLogService
             'ip_address' => Request::ip(),
             'user_agent' => Request::userAgent(),
         ]);
-    }
-
-    /**
-     * Log user action.
-     */
-    public function logUserAction(string $action, int $userId, ?array $changes = null): ActivityLog
-    {
-        return $this->log($action, 'App\\Models\\User', $userId, null, null, $changes);
-    }
-
-    /**
-     * Log staff action.
-     */
-    public function logStaffAction(string $action, int $staffId, ?array $changes = null): ActivityLog
-    {
-        return $this->log($action, 'App\\Models\\Staff', $staffId, null, null, $changes);
     }
 }

@@ -10,17 +10,13 @@ class Role extends Model
 {
     use HasFactory;
 
-    /**
-     * Get the staff that have this role.
-     */
+    protected array $dontLog = [];
+
     public function staff()
     {
         return $this->belongsToMany(Staff::class, 'staff_role');
     }
 
-    /**
-     * Get the permissions for this role.
-     */
     public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'role_permission');

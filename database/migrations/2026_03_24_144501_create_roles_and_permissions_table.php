@@ -31,7 +31,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
             $table->foreignId('permission_id')->constrained('permissions')->onDelete('cascade');
-            $table->timestamps();
+
             $table->unique(['role_id', 'permission_id']);
         });
 
@@ -39,7 +39,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('staff_id')->constrained('staff')->onDelete('cascade');
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
-            $table->timestamps();
+
             $table->unique(['staff_id', 'role_id']);
         });
     }
