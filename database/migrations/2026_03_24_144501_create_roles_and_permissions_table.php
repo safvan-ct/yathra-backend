@@ -37,7 +37,7 @@ return new class extends Migration
 
         Schema::create('staff_role', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('staff_id')->constrained('staff')->onDelete('cascade');
+            $table->foreignId('staff_id')->constrained('staffs')->onDelete('cascade');
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
 
             $table->unique(['staff_id', 'role_id']);

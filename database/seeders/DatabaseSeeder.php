@@ -1,6 +1,7 @@
 <?php
 namespace Database\Seeders;
 
+use App\Models\Staff;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,11 +15,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name'        => 'Safvan CT',
-            'phone'       => '7560838394',
-            'pin'         => '1234',
-        ]);
+        User::create(['name' => 'Safvan CT', 'phone' => '7560838394', 'pin' => '1234']);
+
+        Staff::create(['name' => 'dev', 'email' => 'dev@yathra.com', 'password' => 'dev@1234']);
 
         $this->call([
             RoleSeeder::class,

@@ -33,6 +33,7 @@
                                     <th>#</th>
                                     <th>District</th>
                                     <th>Local Name</th>
+                                    <th>Code</th>
                                     <th>State</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -93,6 +94,12 @@
                 {
                     data: 'local_name',
                     name: 'local_name'
+                },
+                {
+                    data: 'code',
+                    name: 'code',
+                    render: (data) =>
+                        `<span class="badge bg-light-info text-info rounded-pill px-3">${data}</span>`
                 },
                 {
                     data: 'state_name',

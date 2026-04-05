@@ -46,9 +46,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('code', 10)->unique();
             $table->string('local_name')->nullable();
-            $table->decimal('lat', 10, 8);
-            $table->decimal('long', 11, 8);
-            $table->enum('type', ['Hub', 'Stop', 'Terminal']);
+            $table->decimal('lat', 10, 8)->nullable();
+            $table->decimal('long', 11, 8)->nullable();
+            $table->enum('type', ['Hub', 'Stop', 'Terminal'])->default('Stop');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();

@@ -4,7 +4,7 @@
 
 <div class="row">
     <!-- Basic Info -->
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-2">
         <label for="origin_id" class="form-label fw-bold small text-uppercase">Origin Station</label>
         <select class="form-select choices-select" name="origin_id" id="origin_id" required>
             <option value="">Select Origin</option>
@@ -16,7 +16,7 @@
         </select>
     </div>
 
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-2">
         <label for="destination_id" class="form-label fw-bold small text-uppercase">Destination Station</label>
         <select class="form-select choices-select" name="destination_id" id="destination_id" required>
             <option value="">Select Destination</option>
@@ -28,24 +28,16 @@
         </select>
     </div>
 
-    <div class="col-md-4 mb-3">
+    <div class="col-md-2 mb-2">
         <label for="variant" class="form-label fw-bold small text-uppercase">Route Variant (Via/Code)</label>
         <input type="text" class="form-control" name="variant" id="variant"
             value="{{ $route ? $route->path_signature : 'DIRECT' }}" placeholder="e.g. VIA ALUVA, BYPASS" required>
     </div>
 
-    <div class="col-md-4 mb-3">
+    <div class="col-md-2 mb-2">
         <label for="distance" class="form-label fw-bold small text-uppercase">Total Distance (km)</label>
         <input type="number" step="0.01" class="form-control" name="distance" id="distance"
             value="{{ $route ? $route->distance : '0' }}" required>
-    </div>
-
-    <div class="col-md-4 mb-3 d-none">
-        <label class="form-label fw-bold small text-uppercase">Status</label>
-        <select class="form-select" name="is_active">
-            <option value="1" @if ($route && $route->is_active) selected @endif>Active</option>
-            <option value="0" @if ($route && !$route->is_active) selected @endif>Inactive</option>
-        </select>
     </div>
 
     <!-- Stops Management -->
@@ -64,7 +56,7 @@
                     <tr>
                         <th style="width: 50px;">Seq</th>
                         <th>Station</th>
-                        <th style="width: 150px;">Dist from Start (km)</th>
+                        <th style="width: 180px;">Dist from Start (km)</th>
                         <th style="width: 80px;">Active</th>
                         <th style="width: 50px;"></th>
                     </tr>
@@ -80,7 +72,6 @@
                                         class="seq-input" value="{{ $node->stop_sequence }}">
                                     <input type="hidden" name="nodes[{{ $index }}][id]"
                                         value="{{ $node->id }}">
-
                                 </td>
                                 <td>
                                     <select class="form-select station-select"
@@ -116,9 +107,7 @@
                                 </td>
                             </tr>
                         @endforeach
-
                     @endif
-
                 </tbody>
             </table>
         </div>
@@ -136,7 +125,6 @@
                 $(this).find('.seq-input').val(seq);
             });
         }
-
 
         $('#addStopBtn').on('click', function() {
             const row = `

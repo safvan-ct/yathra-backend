@@ -16,6 +16,8 @@ class Staff extends Authenticatable
 
     protected array $dontLog = ['password', 'remember_token'];
 
+    protected $table = 'staffs';
+
     protected function casts(): array
     {
         return [

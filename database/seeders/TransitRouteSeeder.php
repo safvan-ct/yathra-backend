@@ -15,7 +15,7 @@ class TransitRouteSeeder extends Seeder
             [
                 'origin_id'      => 1,  // MKD
                 'destination_id' => 10, // TVK
-                'variant'        => 'via_kpm',
+                'variant'        => 'DIRECT',
                 'distance'       => 18,
                 'nodes'          => [
                     [
@@ -38,7 +38,7 @@ class TransitRouteSeeder extends Seeder
             [
                 'origin_id'      => 1, // MKD
                 'destination_id' => 9, // AMB
-                'variant'        => 'via_tvk',
+                'variant'        => 'DIRECT',
                 'distance'       => 24,
                 'nodes'          => [
                     [
@@ -66,7 +66,7 @@ class TransitRouteSeeder extends Seeder
             [
                 'origin_id'      => 1,  // MKD
                 'destination_id' => 13, // PYD
-                'variant'        => 'via_clg',
+                'variant'        => 'DIRECT',
                 'distance'       => 7,
                 'nodes'          => [
                     [
@@ -84,7 +84,7 @@ class TransitRouteSeeder extends Seeder
             [
                 'origin_id'      => 13, // PYD
                 'destination_id' => 1,  // MKD
-                'variant'        => 'via_clg',
+                'variant'        => 'DIRECT',
                 'distance'       => 7,
                 'nodes'          => [
                     [

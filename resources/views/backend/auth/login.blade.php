@@ -18,7 +18,7 @@
         @csrf
 
         <div class="form-floating mb-2 emailDiv">
-            <input type="email" class="form-control" id="email" name="email" value="{{ old('email', 'admin@example.com') }}" required
+            <input type="email" class="form-control" id="email" name="email" value="{{ old('email', 'dev@yathra.com') }}" required
                 autofocus autocomplete="username" placeholder="" autocomplete="new-password" />
             <label for="email">Email Address / Username</label>
 
@@ -29,7 +29,7 @@
 
         <div class="form-floating mb-2 passwordDiv">
             <input type="password" class="form-control" id="password" name="password" required
-                autocomplete="current-password" placeholder="" value="password123"/>
+                autocomplete="current-password" placeholder="" value="dev@1234"/>
             <label for="password">Password</label>
 
             @if ($errors->has('password'))
