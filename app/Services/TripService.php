@@ -28,9 +28,9 @@ class TripService
         $this->validateTripInputs($data);
 
         $trip = $this->tripRepository->create($data);
-        if ($trip) {
-            $this->activityLogService->log('trip_created', 'App\\Models\\Trip', $trip->id, $trip->toArray());
-        }
+        // if ($trip) {
+        //     $this->activityLogService->log('trip_created', 'App\\Models\\Trip', $trip->id, $trip->toArray());
+        // }
         return $trip;
     }
 
@@ -45,9 +45,9 @@ class TripService
         $this->validateTripInputs($merged, $id);
 
         $trip = $this->tripRepository->update($id, $data);
-        if ($trip) {
-            $this->activityLogService->log('trip_updated', 'App\\Models\\Trip', $id, $trip->toArray());
-        }
+        // if ($trip) {
+        //     $this->activityLogService->log('trip_updated', 'App\\Models\\Trip', $id, $trip->toArray());
+        // }
 
         return $trip;
     }
@@ -55,9 +55,9 @@ class TripService
     public function delete(int $id)
     {
         $deleted = $this->tripRepository->delete($id);
-        if ($deleted) {
-            $this->activityLogService->log('trip_deleted', 'App\\Models\\Trip', $id, null);
-        }
+        // if ($deleted) {
+        //     $this->activityLogService->log('trip_deleted', 'App\\Models\\Trip', $id, null);
+        // }
 
         return $deleted;
     }

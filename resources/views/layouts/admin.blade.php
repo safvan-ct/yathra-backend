@@ -144,6 +144,24 @@
                         </a>
                     </li>
 
+                    <li
+                        class="pc-item pc-hasmenu {{ Str::is('backend.trips.*', Route::currentRouteName()) ? 'active pc-trigger' : '' }}">
+                        <a href="javascript:void(0)" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-bus"></i></span>
+                            <span class="pc-mtext">Fleet Management</span>
+                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+                        </a>
+                        <ul class="pc-submenu">
+                            <li class="pc-item">
+                                <a class="pc-link" href="{{ route('backend.operators.index') }}">Operators Hub</a>
+                            </li>
+                            <li
+                                class="pc-item {{ Str::is('backend.trips.*', Route::currentRouteName()) ? 'active' : '' }}">
+                                <a class="pc-link" href="{{ route('backend.buses.index') }}">Buses & Trips</a>
+                            </li>
+                        </ul>
+                    </li>
+
                     <li class="pc-item pc-caption">
                         <label>Moderation</label>
                     </li>

@@ -9,7 +9,7 @@ class Trip extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected array $dontLog = [];
+    public $dontLog = ['is_active'];
 
     protected $fillable = [
         'bus_id',
@@ -18,6 +18,7 @@ class Trip extends Model
         'arrival_time',
         'days_of_week',
         'status',
+        'is_active',
     ];
 
     protected $casts = [

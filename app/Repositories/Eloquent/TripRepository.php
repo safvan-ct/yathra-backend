@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Repositories\Eloquent;
 
 use App\Models\Trip;
@@ -12,19 +11,19 @@ class TripRepository implements TripRepositoryInterface
     {
         $query = Trip::query()->with(['bus.operator', 'route.origin', 'route.destination']);
 
-        if (!empty($filters['route_id'])) {
+        if (! empty($filters['route_id'])) {
             $query->where('route_id', $filters['route_id']);
         }
 
-        if (!empty($filters['bus_id'])) {
+        if (! empty($filters['bus_id'])) {
             $query->where('bus_id', $filters['bus_id']);
         }
 
-        if (!empty($filters['operator_id'])) {
+        if (! empty($filters['operator_id'])) {
             $query->whereHas('bus', fn($q) => $q->where('operator_id', $filters['operator_id']));
         }
 
-        if (!empty($filters['status'])) {
+        if (! empty($filters['status'])) {
             $query->where('status', $filters['status']);
         }
 
@@ -52,9 +51,8 @@ class TripRepository implements TripRepositoryInterface
 
     public function update(int $id, array $data)
     {
-        /** @var \App\Models\Trip|null $trip */
         $trip = Trip::find($id);
-        if (!$trip) {
+        if (! $trip) {
             return null;
         }
 
@@ -64,9 +62,8 @@ class TripRepository implements TripRepositoryInterface
 
     public function delete(int $id)
     {
-        /** @var \App\Models\Trip|null $trip */
         $trip = Trip::find($id);
-        if (!$trip) {
+        if (! $trip) {
             return false;
         }
 
@@ -321,11 +318,11 @@ class TripRepository implements TripRepositoryInterface
                         ),
                         'm'
                     ) as time_taken
-                ")
+                "),
             ])
 
-            ->orderByRaw("CASE  WHEN departure_time_raw >= CURTIME() THEN 0 ELSE 1 END")
-            ->orderBy('departure_time_raw')
+            ->orderByRaw("CASE WHEN departure_time_raw >= CURTIME() THEN 0 ELSE 1 END")
+        // ->orderBy('departure_time_raw')
             ->get();
     }
 
@@ -507,7 +504,7 @@ class TripRepository implements TripRepositoryInterface
                         ),
                         'm'
                     ) as time_taken
-                ")
+                "),
             ])
 
             ->orderByRaw("CASE WHEN departure_time_raw >= SUBTIME(CURTIME(), '00:15:00') THEN 0 ELSE 1 END") // upcoming first, past later
