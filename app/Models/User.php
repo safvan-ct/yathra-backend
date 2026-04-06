@@ -14,7 +14,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
 
-    protected array $dontLog = ['pin', 'remember_token'];
+    public $dontLog = ['is_active', 'pin', 'remember_token'];
 
     protected function casts(): array
     {

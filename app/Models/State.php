@@ -9,7 +9,7 @@ class State extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected array $dontLog = [];
+    public $dontLog = ['is_active'];
 
     protected $fillable = ['name', 'local_name', 'code', 'is_active'];
 

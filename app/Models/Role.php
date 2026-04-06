@@ -10,7 +10,7 @@ class Role extends Model
 {
     use HasFactory;
 
-    protected array $dontLog = [];
+    public $dontLog = [];
 
     public function staff()
     {

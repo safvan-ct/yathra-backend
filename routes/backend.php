@@ -1,13 +1,16 @@
 <?php
 
 use App\Http\Controllers\Backend\Auth\LoginController;
+use App\Http\Controllers\Backend\BusController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\OperatorController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\StaffController;
 use App\Http\Controllers\Backend\SuggestionController;
 use App\Http\Controllers\Backend\TransitRouteController;
+use App\Http\Controllers\Backend\TripController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -89,6 +92,40 @@ Route::prefix('backend')->name('backend.')->middleware(['auth:staff'])->group(fu
         Route::put('/{id}', [TransitRouteController::class, 'update'])->name('update');
         Route::patch('/toggle-status/{id}', [TransitRouteController::class, 'toggleStatus'])->name('toggle-status');
         Route::delete('/{id}', [TransitRouteController::class, 'destroy'])->name('destroy');
+    });
+
+    // Operator Routes
+    Route::prefix('operators')->name('operators.')->group(function () {
+        Route::get('/', [OperatorController::class, 'index'])->name('index');
+        Route::get('/datatable', [OperatorController::class, 'datatable'])->name('datatable');
+        Route::get('/search', [OperatorController::class, 'search'])->name('search');
+        Route::get('/form/{id?}', [OperatorController::class, 'form'])->name('form');
+        Route::post('/', [OperatorController::class, 'store'])->name('store');
+        Route::put('/{id}', [OperatorController::class, 'update'])->name('update');
+        Route::patch('/toggle-status/{id}', [OperatorController::class, 'toggleStatus'])->name('toggle-status');
+        Route::delete('/{id}', [OperatorController::class, 'destroy'])->name('destroy');
+    });
+
+    // Bus Routes
+    Route::prefix('buses')->name('buses.')->group(function () {
+        Route::get('/', [BusController::class, 'index'])->name('index');
+        Route::get('/datatable', [BusController::class, 'datatable'])->name('datatable');
+        Route::get('/form/{id?}', [BusController::class, 'form'])->name('form');
+        Route::post('/', [BusController::class, 'store'])->name('store');
+        Route::put('/{id}', [BusController::class, 'update'])->name('update');
+        Route::patch('/toggle-status/{id}', [BusController::class, 'toggleStatus'])->name('toggle-status');
+        Route::delete('/{id}', [BusController::class, 'destroy'])->name('destroy');
+    });
+
+    // Trip Routes
+    Route::prefix('trips')->name('trips.')->group(function () {
+        Route::get('/', [TripController::class, 'index'])->name('index');
+        Route::get('/datatable', [TripController::class, 'datatable'])->name('datatable');
+        Route::get('/form/{id?}', [TripController::class, 'form'])->name('form');
+        Route::post('/', [TripController::class, 'store'])->name('store');
+        Route::put('/{id}', [TripController::class, 'update'])->name('update');
+        Route::patch('/toggle-status/{id}', [TripController::class, 'toggleStatus'])->name('toggle-status');
+        Route::delete('/{id}', [TripController::class, 'destroy'])->name('destroy');
     });
 
     // Suggestion Routes

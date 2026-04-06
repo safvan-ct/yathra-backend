@@ -14,7 +14,7 @@ class Staff extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
 
-    protected array $dontLog = ['password', 'remember_token'];
+    public $dontLog = ['is_active', 'password', 'remember_token'];
 
     protected $table = 'staffs';
 

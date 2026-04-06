@@ -9,7 +9,7 @@ class Operator extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected array $dontLog = [];
+    public $dontLog = ['is_active', 'is_public'];
 
     protected $fillable = [
         'name',

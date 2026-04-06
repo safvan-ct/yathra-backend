@@ -8,10 +8,17 @@ class OperatorRepository implements OperatorRepositoryInterface
 {
     public function paginate(array $filters = [], int $perPage = 15)
     {
+        return $this->getQuery($filters)->paginate($perPage);
+    }
+
+    public function getQuery(array $filters = [])
+    {
         $query = Operator::query();
 
         if (! empty($filters['search'])) {
-            $query->where('name', 'like', '%' . $filters['search'] . '%');
+            $query->where(function ($q) use ($filters) {
+                $q->where('name', 'like', '%' . $filters['search'] . '%')->orWhere('phone', 'like', '%' . $filters['search'] . '%');
+            });
         }
 
         if (! empty($filters['type'])) {
@@ -22,7 +29,7 @@ class OperatorRepository implements OperatorRepositoryInterface
             $query->where('is_active', (bool) $filters['is_active']);
         }
 
-        return $query->orderBy('name')->paginate($perPage);
+        return $query->orderBy('name');
     }
 
     public function find(int $id)

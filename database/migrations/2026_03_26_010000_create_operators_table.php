@@ -50,6 +50,7 @@ return new class extends Migration
             $table->time('arrival_time');
             $table->json('days_of_week');
             $table->enum('status', ['Active', 'Cancelled', 'Delayed'])->default('Active');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
 

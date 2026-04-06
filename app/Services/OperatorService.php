@@ -14,6 +14,11 @@ class OperatorService
         return $this->operatorRepository->paginate($filters, $perPage);
     }
 
+    public function query(array $filters = [])
+    {
+        return $this->operatorRepository->getQuery($filters);
+    }
+
     public function get(int $id)
     {
         return $this->operatorRepository->find($id);

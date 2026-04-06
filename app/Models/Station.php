@@ -9,7 +9,7 @@ class Station extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected array $dontLog = [];
+    public $dontLog = ['is_active'];
 
     protected $fillable = ['city_id', 'name', 'code', 'local_name', 'lat', 'long', 'type', 'is_active'];
 
