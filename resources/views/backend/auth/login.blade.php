@@ -1,4 +1,4 @@
-@extends('layouts.admin-auth')
+@extends('layouts.backend-auth')
 
 @section('content')
     <div class="row">

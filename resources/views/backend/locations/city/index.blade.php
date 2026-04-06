@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.backend')
 
 @section('content')
     <div class="selectFilter" style="display:none; min-width: 250px;">
