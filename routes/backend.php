@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\ActivityLogController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\BusController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -134,5 +135,12 @@ Route::prefix('backend')->name('backend.')->middleware(['auth:staff'])->group(fu
         Route::get('/list', [SuggestionController::class, 'getList'])->name('list');
         Route::get('/{id}', [SuggestionController::class, 'show'])->name('show');
         Route::post('/{id}/review', [SuggestionController::class, 'review'])->name('review');
+    });
+
+    // Activity Log Routes
+    Route::prefix('activity-logs')->name('activity-logs.')->group(function () {
+        Route::get('/', [ActivityLogController::class, 'index'])->name('index');
+        Route::get('/datatable', [ActivityLogController::class, 'datatable'])->name('datatable');
+        Route::get('/{id}', [ActivityLogController::class, 'show'])->name('show');
     });
 });

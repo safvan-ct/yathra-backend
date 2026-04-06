@@ -162,13 +162,18 @@
                         </ul>
                     </li>
 
-                    <li class="pc-item pc-caption">
-                        <label>Moderation</label>
-                    </li>
                     <li class="pc-item">
                         <a href="{{ route('backend.suggestions.index') }}" class="pc-link">
                             <span class="pc-micon"><i class="ti ti-inbox"></i></span>
                             <span class="pc-mtext">Suggestion Hub</span>
+                        </a>
+                    </li>
+
+                    <li
+                        class="pc-item {{ Str::is('backend.activity-logs.*', Route::currentRouteName()) ? 'active' : '' }}">
+                        <a href="{{ route('backend.activity-logs.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-history"></i></span>
+                            <span class="pc-mtext">Activity Logs</span>
                         </a>
                     </li>
                 </ul>
