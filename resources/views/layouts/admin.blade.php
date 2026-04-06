@@ -143,6 +143,16 @@
                             <span class="pc-mtext">Transit Routes</span>
                         </a>
                     </li>
+
+                    <li class="pc-item pc-caption">
+                        <label>Moderation</label>
+                    </li>
+                    <li class="pc-item">
+                        <a href="{{ route('backend.suggestions.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-inbox"></i></span>
+                            <span class="pc-mtext">Suggestion Hub</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

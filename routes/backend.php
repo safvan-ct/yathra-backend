@@ -6,6 +6,8 @@ use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\StaffController;
+use App\Http\Controllers\Backend\SuggestionController;
+use App\Http\Controllers\Backend\TransitRouteController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -80,12 +82,20 @@ Route::prefix('backend')->name('backend.')->middleware(['auth:staff'])->group(fu
 
     // Transit Route Routes
     Route::prefix('transit-routes')->name('transit-routes.')->group(function () {
-        Route::get('/', [App\Http\Controllers\Backend\TransitRouteController::class, 'index'])->name('index');
-        Route::get('/datatable', [App\Http\Controllers\Backend\TransitRouteController::class, 'datatable'])->name('datatable');
-        Route::get('/form/{id?}', [App\Http\Controllers\Backend\TransitRouteController::class, 'form'])->name('form');
-        Route::post('/', [App\Http\Controllers\Backend\TransitRouteController::class, 'store'])->name('store');
-        Route::put('/{id}', [App\Http\Controllers\Backend\TransitRouteController::class, 'update'])->name('update');
-        Route::patch('/toggle-status/{id}', [App\Http\Controllers\Backend\TransitRouteController::class, 'toggleStatus'])->name('toggle-status');
-        Route::delete('/{id}', [App\Http\Controllers\Backend\TransitRouteController::class, 'destroy'])->name('destroy');
+        Route::get('/', [TransitRouteController::class, 'index'])->name('index');
+        Route::get('/datatable', [TransitRouteController::class, 'datatable'])->name('datatable');
+        Route::get('/form/{id?}', [TransitRouteController::class, 'form'])->name('form');
+        Route::post('/', [TransitRouteController::class, 'store'])->name('store');
+        Route::put('/{id}', [TransitRouteController::class, 'update'])->name('update');
+        Route::patch('/toggle-status/{id}', [TransitRouteController::class, 'toggleStatus'])->name('toggle-status');
+        Route::delete('/{id}', [TransitRouteController::class, 'destroy'])->name('destroy');
+    });
+
+    // Suggestion Routes
+    Route::prefix('suggestions')->name('suggestions.')->group(function () {
+        Route::get('/', [SuggestionController::class, 'index'])->name('index');
+        Route::get('/list', [SuggestionController::class, 'getList'])->name('list');
+        Route::get('/{id}', [SuggestionController::class, 'show'])->name('show');
+        Route::post('/{id}/review', [SuggestionController::class, 'review'])->name('review');
     });
 });
