@@ -1,10 +1,17 @@
 <?php
 namespace App\Services;
 
+use App\Enums\RewardActivityType;
 use App\Enums\SuggestionStatus;
 use App\Enums\SuggestionType;
+use App\Models\Bus;
 use App\Models\Operator;
+use App\Models\RouteNode;
+use App\Models\Station;
 use App\Models\Suggestion;
+use App\Models\TransitRoute;
+use App\Models\Trip;
+use App\Models\User;
 use App\Repositories\Interfaces\SuggestionRepositoryInterface;
 use Exception;
 use Illuminate\Http\Request;
@@ -22,14 +29,17 @@ class SuggestionService
 
     public function submitSuggestion(array $data): Suggestion
     {
-        $user = \App\Models\User::find($data['user_id']);
+        $user = User::find($data['user_id']);
+
+        if (! $user || ! ($user instanceof User)) {
+            throw new UnauthorizedException('Unauthorized');
+        }
 
         $data['suggestable_type'] = $data['suggestable_type'] == 'Stop' ? 'RouteNode' : $data['suggestable_type'];
         $modelClass               = $data['suggestable_type'] ? $this->getModelClass($data['suggestable_type']) : null;
 
-        $data['type ']        = SuggestionType::NewEntry->value;
-        $data['proposed_for'] =
-        $data['suggestable_type'] === 'RouteNode' ? 'Route Stop' : ($data['suggestable_type'] === 'Station' ? 'Stop' : $data['suggestable_type']);
+        $data['type ']            = SuggestionType::NewEntry->value;
+        $data['proposed_for']     = $data['suggestable_type'] === 'RouteNode' ? 'Route Stop' : ($data['suggestable_type'] === 'Station' ? 'Stop' : $data['suggestable_type']);
         $data['suggestable_type'] = $modelClass;
 
         $safeguardedEntities = [\App\Models\TransitRoute::class, \App\Models\RouteNode::class];
@@ -50,10 +60,11 @@ class SuggestionService
             $data['proposed_data']['code'] = strtoupper(str_replace(' ', '_', $data['proposed_data']['name'] ?? ''));
 
             $exists = Suggestion::where('proposed_data->name', $data['proposed_data']['name'])
-                ->where('proposed_data->city_id', $data['proposed_data']['city_id'])->exists();
+                ->where('proposed_data->city_id', $data['proposed_data']['city_id'])
+                ->exists();
         } elseif ($data['proposed_for'] === 'Route') {
-            $origin      = \App\Models\Station::find($data['proposed_data']['origin_id']);
-            $destination = \App\Models\Station::find($data['proposed_data']['destination_id']);
+            $origin      = Station::find($data['proposed_data']['origin_id']);
+            $destination = Station::find($data['proposed_data']['destination_id']);
 
             $data['proposed_data']['origin_name']      = $origin->name;
             $data['proposed_data']['destination_name'] = $destination->name;
@@ -63,8 +74,11 @@ class SuggestionService
                 ->where('proposed_data->path_signature', $data['proposed_data']['path_signature'])
                 ->exists();
         } elseif ($data['proposed_for'] === 'Trip') {
-            $bus   = \App\Models\Bus::find($data['proposed_data']['bus_id']);
-            $route = \App\Models\TransitRoute::with(['origin' => fn($q) => $q->select('id', 'name'), 'destination' => fn($q) => $q->select('id', 'name')])->find($data['proposed_data']['route_id']);
+            $bus   = Bus::find($data['proposed_data']['bus_id']);
+            $route = TransitRoute::with([
+                'origin'      => fn($q)      => $q->select('id', 'name'),
+                'destination' => fn($q) => $q->select('id', 'name'),
+            ])->find($data['proposed_data']['route_id']);
 
             $routeName = "{$route->origin->name} - {$route->destination->name} ({$route->path_signature})";
 
@@ -77,9 +91,9 @@ class SuggestionService
                 ->where('proposed_data->arrival_time', $data['proposed_data']['arrival_time'])
                 ->exists();
         } elseif ($data['proposed_for'] === 'Route Stop') {
-            $route     = \App\Models\TransitRoute::find($data['proposed_data']['route_id']);
-            $routeStop = \App\Models\RouteNode::with(['station' => fn($q) => $q->select('id', 'name')])->find($data['proposed_data']['before_node_id']);
-            $station   = \App\Models\Station::find($data['proposed_data']['station_id']);
+            $route     = TransitRoute::find($data['proposed_data']['route_id']);
+            $routeStop = RouteNode::with(['station' => fn($q) => $q->select('id', 'name')])->find($data['proposed_data']['before_node_id']);
+            $station   = Station::find($data['proposed_data']['station_id']);
 
             $routeName     = "{$route->origin->name} - {$route->destination->name} ({$route->path_signature})";
             $routeStopName = $routeStop ? "{$routeStop->station->name}, (Sequence: {$routeStop->stop_sequence}), (Distance:                 {$routeStop->distance_from_origin}Km)" : 'N/A';
@@ -89,6 +103,28 @@ class SuggestionService
             $data['proposed_data']['route_stop_name'] = $routeStopName;
             $data['proposed_data']['stop_name']       = $stopName;
             $data['proposed_data']['stop_sequence']   = $routeStop->stop_sequence + 1;
+
+            // KM & Sequence Validation
+            $existingNodes    = RouteNode::where('route_id', $route->id)->orderBy('stop_sequence')->get();
+            $newNodes         = [];
+            $proposedSequence = $data['proposed_data']['stop_sequence'];
+
+            foreach ($existingNodes as $node) {
+                $newNodes[] = [
+                    'station_id'           => $node->station_id,
+                    'stop_sequence'        => $node->stop_sequence >= $proposedSequence ? $node->stop_sequence + 1 : $node->stop_sequence,
+                    'distance_from_origin' => $node->distance_from_origin,
+                    'is_active'            => $node->is_active,
+                ];
+            }
+            $newNodes[] = [
+                'station_id'           => $data['proposed_data']['station_id'],
+                'stop_sequence'        => $proposedSequence,
+                'distance_from_origin' => $data['proposed_data']['distance_from_origin'],
+                'is_active'            => true,
+            ];
+
+            app(TransitRouteService::class)->validateNodePayload($route->origin_id, $route->destination_id, $newNodes);
 
             $exists = Suggestion::where('proposed_data->route_id', $data['proposed_data']['route_id'])
                 ->where('proposed_data->station_id', $data['proposed_data']['station_id'])
@@ -158,15 +194,63 @@ class SuggestionService
 
         $typeEnum = $suggestion->type; // App\Enums\SuggestionType
 
-        if ($typeEnum === \App\Enums\SuggestionType::NewEntry) {
-            $modelClass::create($suggestion->proposed_data);
-            $activityType = \App\Enums\RewardActivityType::NewEntry;
-        } elseif ($typeEnum === \App\Enums\SuggestionType::Update) {
-            $modelClass::where('id', $suggestion->suggestable_id)->update($suggestion->proposed_data);
-            $activityType = \App\Enums\RewardActivityType::Update;
+        if ($typeEnum === SuggestionType::NewEntry) {
+            if ($modelClass === TransitRoute::class) {
+                $routeData            = $suggestion->proposed_data;
+                $routeData['variant'] = $routeData['path_signature'] ?? 'DIRECT';
+                $routeData['nodes']   = $routeData['nodes'] ?? [];
+
+                if (empty($routeData['nodes'])) {
+                    $routeData['nodes'] = [
+                        [
+                            'station_id'           => $routeData['origin_id'],
+                            'stop_sequence'        => 1,
+                            'distance_from_origin' => 0,
+                            'is_active'            => true,
+                        ],
+                        [
+                            'station_id'           => $routeData['destination_id'],
+                            'stop_sequence'        => 2,
+                            'distance_from_origin' => $routeData['distance'] ?? 0,
+                            'is_active'            => true,
+                        ],
+                    ];
+                }
+
+                app(TransitRouteService::class)->create($routeData);
+            } elseif ($modelClass === RouteNode::class) {
+                $nodeData = $suggestion->proposed_data;
+
+                // Shift subsequent nodes to make room for the new one
+                RouteNode::where('route_id', (int) $nodeData['route_id'])
+                    ->where('stop_sequence', '>=', (int) $nodeData['stop_sequence'])
+                    ->increment('stop_sequence');
+
+                RouteNode::create([
+                    'route_id'             => (int) $nodeData['route_id'],
+                    'station_id'           => (int) $nodeData['station_id'],
+                    'stop_sequence'        => (int) $nodeData['stop_sequence'],
+                    'distance_from_origin' => $nodeData['distance_from_origin'],
+                    'is_active'            => true,
+                ]);
+            } elseif ($modelClass === Trip::class) {
+                app(TripService::class)->create($suggestion->proposed_data);
+            } else {
+                $modelClass::create($suggestion->proposed_data);
+            }
+            $activityType = RewardActivityType::NewEntry;
+        } elseif ($typeEnum === SuggestionType::Update) {
+            if ($modelClass === TransitRoute::class) {
+                $routeData            = $suggestion->proposed_data;
+                $routeData['variant'] = $routeData['path_signature'] ?? 'DIRECT';
+
+                app(TransitRouteService::class)->update($suggestion->suggestable_id, $routeData);
+            } else {
+                $modelClass::where('id', $suggestion->suggestable_id)->update($suggestion->proposed_data);
+            }
+            $activityType = RewardActivityType::Update;
         } else {
-            // Verification doesn't mutate existing core data
-            $activityType = \App\Enums\RewardActivityType::Verification;
+            $activityType = RewardActivityType::Verification;
         }
 
         $this->rewardService->rewardUser($suggestion->user_id, $suggestion->id, $activityType);
@@ -176,11 +260,11 @@ class SuggestionService
     protected function getModelClass(string $type): ?string
     {
         $map = [
-            'Trip'      => \App\Models\Trip::class,
-            'Route'     => \App\Models\TransitRoute::class,
-            'Station'   => \App\Models\Station::class,
-            'Bus'       => \App\Models\Bus::class,
-            'RouteNode' => \App\Models\RouteNode::class,
+            'Trip'      => Trip::class,
+            'Route'     => TransitRoute::class,
+            'Station'   => Station::class,
+            'Bus'       => Bus::class,
+            'RouteNode' => RouteNode::class,
         ];
 
         return $map[$type] ?? null;
@@ -189,7 +273,7 @@ class SuggestionService
     public function validateUser(Request $request)
     {
         $user = $request->user();
-        if (! $user || ! ($user instanceof \App\Models\User)) {
+        if (! $user || ! ($user instanceof User)) {
             throw new UnauthorizedException('Unauthorized');
         }
     }
