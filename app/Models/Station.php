@@ -11,12 +11,17 @@ class Station extends Model
 
     public $dontLog = ['is_active'];
 
-    protected $fillable = ['city_id', 'name', 'code', 'local_name', 'lat', 'long', 'type', 'is_active'];
+    protected $fillable = ['city_id', 'parent_id', 'name', 'code', 'local_name', 'lat', 'long', 'type', 'is_parent', 'is_active'];
 
     protected $casts = [
         'lat'  => 'decimal:8',
         'long' => 'decimal:8',
     ];
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucwords(strtolower($value));
+    }
 
     public function city()
     {

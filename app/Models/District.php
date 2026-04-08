@@ -17,6 +17,11 @@ class District extends Model
         'is_active' => 'boolean',
     ];
 
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucwords(strtolower($value));
+    }
+
     public function state()
     {
         return $this->belongsTo(State::class);

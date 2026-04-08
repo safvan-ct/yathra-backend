@@ -16,7 +16,7 @@ class CRUD {
             responsive: true,
 
             ajax: {
-                url: `/backend/${resource}/datatable`,
+                url: `${window.APP_URL}/backend/${resource}/datatable`,
                 data: function (d) {
                     d.filter = $("#getFilter").length
                         ? $("#getFilter").val()
@@ -53,8 +53,8 @@ class CRUD {
 
         // Load fields partial from controller
         let formUrl = attributeId
-            ? `/backend/${resource}/form/${id}/${attributeId}`
-            : `/backend/${resource}/form/${id}`;
+            ? `${window.APP_URL}/backend/${resource}/form/${id}/${attributeId}`
+            : `${window.APP_URL}/backend/${resource}/form/${id}`;
 
         $("#crudBody").load(formUrl, function () {
             let img = $("#imagePreview");
@@ -84,9 +84,9 @@ class CRUD {
         let id = formData.get("id");
 
         let createUrl = attributeId
-            ? `/backend/${resource}/${attributeId}`
-            : `/backend/${resource}`;
-        let url = id && id > 0 ? `/backend/${resource}/${id}` : createUrl;
+            ? `${window.APP_URL}/backend/${resource}/${attributeId}`
+            : `${window.APP_URL}/backend/${resource}`;
+        let url = id && id > 0 ? `${window.APP_URL}/backend/${resource}/${id}` : createUrl;
 
         formData.append("_method", id && id > 0 ? "PUT" : "POST");
 
@@ -134,7 +134,7 @@ class CRUD {
 
         if (!confirm("Are you sure?")) return;
 
-        fetch(`/backend/${resource}/${id}`, {
+        fetch(`${window.APP_URL}/backend/${resource}/${id}`, {
             method: "DELETE",
             headers: {
                 Accept: "application/json",
@@ -158,7 +158,7 @@ class CRUD {
 
         showLoader();
 
-        fetch(`/backend/${resource}/toggle-status/${id}`, {
+        fetch(`${window.APP_URL}/backend/${resource}/toggle-status/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",

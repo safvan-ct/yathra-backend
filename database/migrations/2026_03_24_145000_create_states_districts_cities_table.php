@@ -34,7 +34,7 @@ return new class extends Migration
             $table->foreignId('district_id')->constrained('districts')->onDelete('cascade');
             $table->string('name');
             $table->string('local_name')->nullable();
-            $table->string('code')->unique();
+            $table->string('code', 5)->unique();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
@@ -43,12 +43,14 @@ return new class extends Migration
         Schema::create('stations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('city_id')->constrained('cities')->onDelete('cascade');
+            $table->foreignId('parent_id')->nullable()->constrained('stations')->nullOnDelete();
             $table->string('name');
-            $table->string('code', 10)->unique();
+            $table->string('code', 5)->unique();
             $table->string('local_name')->nullable();
             $table->decimal('lat', 10, 8)->nullable();
             $table->decimal('long', 11, 8)->nullable();
             $table->enum('type', ['Hub', 'Stop', 'Terminal'])->default('Stop');
+            $table->boolean('is_parent')->default(false);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();

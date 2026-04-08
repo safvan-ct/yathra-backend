@@ -13,90 +13,49 @@ class TransitRouteSeeder extends Seeder
 
         $routes = [
             [
-                'origin_id'      => 1,  // MKD
-                'destination_id' => 10, // TVK
+                'origin_id'      => 85,  // MKD
+                'destination_id' => 162, // TVK
                 'variant'        => 'DIRECT',
-                'distance'       => 18,
+                'distance'       => 17,
                 'nodes'          => [
-                    [
-                        'station_id'           => 1,
-                        'stop_sequence'        => 1,
-                        'distance_from_origin' => 0,
-                    ],
-                    [
-                        'station_id'           => 6,
-                        'stop_sequence'        => 2,
-                        'distance_from_origin' => 11,
-                    ],
-                    [
-                        'station_id'           => 10,
-                        'stop_sequence'        => 3,
-                        'distance_from_origin' => 18,
-                    ],
+                    ['station_id' => 85, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => 88, 'stop_sequence' => 2, 'distance_from_origin' => 10],
+                    ['station_id' => 162, 'stop_sequence' => 3, 'distance_from_origin' => 17],
                 ],
             ],
             [
-                'origin_id'      => 1, // MKD
-                'destination_id' => 9, // AMB
+                'origin_id'      => 162, // TVK
+                'destination_id' => 85,  // MKD
                 'variant'        => 'DIRECT',
-                'distance'       => 24,
+                'distance'       => 17,
                 'nodes'          => [
-                    [
-                        'station_id'           => 1,
-                        'stop_sequence'        => 1,
-                        'distance_from_origin' => 0,
-                    ],
-                    [
-                        'station_id'           => 6,
-                        'stop_sequence'        => 2,
-                        'distance_from_origin' => 11,
-                    ],
-                    [
-                        'station_id'           => 10,
-                        'stop_sequence'        => 3,
-                        'distance_from_origin' => 18,
-                    ],
-                    [
-                        'station_id'           => 9,
-                        'stop_sequence'        => 4,
-                        'distance_from_origin' => 24,
-                    ],
+                    ['station_id' => 162, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => 88, 'stop_sequence' => 2, 'distance_from_origin' => 7],
+                    ['station_id' => 85, 'stop_sequence' => 3, 'distance_from_origin' => 17],
                 ],
             ],
             [
-                'origin_id'      => 1,  // MKD
-                'destination_id' => 13, // PYD
+                'origin_id'      => 85,  // MKD
+                'destination_id' => 164, // AMA
                 'variant'        => 'DIRECT',
-                'distance'       => 7,
+                'distance'       => 22,
                 'nodes'          => [
-                    [
-                        'station_id'           => 1,
-                        'stop_sequence'        => 1,
-                        'distance_from_origin' => 0,
-                    ],
-                    [
-                        'station_id'           => 13,
-                        'stop_sequence'        => 2,
-                        'distance_from_origin' => 7,
-                    ],
+                    ['station_id' => 85, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => 88, 'stop_sequence' => 2, 'distance_from_origin' => 10],
+                    ['station_id' => 162, 'stop_sequence' => 3, 'distance_from_origin' => 17],
+                    ['station_id' => 164, 'stop_sequence' => 4, 'distance_from_origin' => 22],
                 ],
             ],
             [
-                'origin_id'      => 13, // PYD
-                'destination_id' => 1,  // MKD
+                'origin_id'      => 164, // AMA
+                'destination_id' => 85,  // MKD
                 'variant'        => 'DIRECT',
-                'distance'       => 7,
+                'distance'       => 22,
                 'nodes'          => [
-                    [
-                        'station_id'           => 13,
-                        'stop_sequence'        => 1,
-                        'distance_from_origin' => 0,
-                    ],
-                    [
-                        'station_id'           => 1,
-                        'stop_sequence'        => 2,
-                        'distance_from_origin' => 7,
-                    ],
+                    ['station_id' => 164, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => 162, 'stop_sequence' => 2, 'distance_from_origin' => 5],
+                    ['station_id' => 88, 'stop_sequence' => 3, 'distance_from_origin' => 12],
+                    ['station_id' => 85, 'stop_sequence' => 4, 'distance_from_origin' => 22],
                 ],
             ],
         ];

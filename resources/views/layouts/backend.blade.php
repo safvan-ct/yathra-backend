@@ -324,6 +324,8 @@
             light: "{{ asset('img/logo.png') }}"
         };
 
+        window.APP_URL = "{{ url('/') }}";
+
         preset_change('preset-1');
     </script>
 

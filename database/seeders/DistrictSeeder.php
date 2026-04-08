@@ -20,33 +20,10 @@ class DistrictSeeder extends Seeder
             return;
         }
 
-        $districts = [
-            ['name' => 'Thiruvananthapuram', 'code' => 'TVM'],
-            ['name' => 'Kollam', 'code' => 'KLM'],
-            ['name' => 'Pathanamthitta', 'code' => 'PTA'],
-            ['name' => 'Alappuzha', 'code' => 'ALP'],
-            ['name' => 'Kottayam', 'code' => 'KTM'],
-            ['name' => 'Idukki', 'code' => 'IDK'],
-            ['name' => 'Ernakulam', 'code' => 'EKM'],
-            ['name' => 'Thrissur', 'code' => 'TCR'],
-            ['name' => 'Palakkad', 'code' => 'PKD'],
-            ['name' => 'Malappuram', 'code' => 'MLP'],
-            ['name' => 'Kozhikode', 'code' => 'CLT'],
-            ['name' => 'Wayanad', 'code' => 'WYD'],
-            ['name' => 'Kannur', 'code' => 'KNR'],
-            ['name' => 'Kasaragod', 'code' => 'KSD'],
-        ];
-
-        foreach ($districts as $district) {
+        foreach (getKeralaDistricts() as $district => $code) {
             District::updateOrCreate(
-                [
-                    'code'     => $district['code'],
-                    'state_id' => $kerala->id,
-                ],
-                [
-                    'name'      => $district['name'],
-                    'is_active' => true,
-                ]
+                ['code' => $code, 'state_id' => $kerala->id],
+                ['name' => $district]
             );
         }
     }
