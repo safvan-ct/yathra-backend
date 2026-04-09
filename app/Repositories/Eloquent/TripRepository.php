@@ -328,6 +328,10 @@ class TripRepository implements TripRepositoryInterface
 
     public function tripBusesWithoutWait(int $from, int $to)
     {
+        $now      = now();
+        $dayIndex = $now->dayOfWeek;
+        $time     = $now->subMinutes(15)->format('H:i:s');
+
         return DB::table('trips as ts')
             ->join('buses as b', 'b.id', '=', 'ts.bus_id')
             ->join('routes as r', 'r.id', '=', 'ts.route_id')
@@ -348,7 +352,8 @@ class TripRepository implements TripRepositoryInterface
                 DB::raw("(rn_to.distance_from_origin - rn_from.distance_from_origin) as trip_distance_km"),
 
                 // check if the trip is running today
-                DB::raw("JSON_EXTRACT(ts.days_of_week, CONCAT('$[', DAYOFWEEK(CURDATE()) - 1, ']')) as is_running_today"),
+                // DB::raw("JSON_EXTRACT(ts.days_of_week, CONCAT('$[', DAYOFWEEK(CURDATE()) - 1, ']')) as is_running_today"),
+                DB::raw("JSON_EXTRACT(ts.days_of_week, '$[$dayIndex]') as is_running_today"),
 
                 // total trip seconds
                 // DB::raw("
@@ -507,7 +512,8 @@ class TripRepository implements TripRepositoryInterface
                 "),
             ])
 
-            ->orderByRaw("CASE WHEN departure_time_raw >= SUBTIME(CURTIME(), '00:15:00') THEN 0 ELSE 1 END") // upcoming first, past later
+            ->orderByRaw("CASE WHEN departure_time_raw >= ? THEN 0 ELSE 1 END", [$time])
+            // ->orderByRaw("CASE WHEN departure_time_raw >= SUBTIME(CURTIME(), '00:15:00') THEN 0 ELSE 1 END") // upcoming first, past later
             ->orderBy('departure_time_raw')
             ->get();
     }
