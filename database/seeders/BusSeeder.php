@@ -36,8 +36,7 @@ class BusSeeder extends Seeder
             ['name' => 'MADEENA', 'number' => 'NF 50 2009'],
             ['name' => 'NISSAN', 'number' => 'NF 50 2010'],
             ['name' => 'YATHRA', 'number' => 'NF 50 2011'],
-            ['name' => 'ARANGODAN (Bungalow)', 'number' => 'NF 50 2012'],
-
+            ['name' => 'ARANGODAN', 'number' => 'NF 50 2012'],
             ['name' => 'PTB', 'number' => 'NF 50 2013'],
         ];
 

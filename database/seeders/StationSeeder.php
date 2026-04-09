@@ -18,7 +18,7 @@ class StationSeeder extends Seeder
             ['parent_station' => 'Kottoppadam', 'name' => 'Thiruvizhamkunnu'],
             ['parent_station' => 'Kottoppadam', 'name' => 'Edathanattukara'],
             ['parent_station' => 'Kottoppadam', 'name' => 'Ambalappara'],
-            ['parent_station' => 'Alanallur', 'name' => 'Melattur'],
+            ['parent_station' => 'Alanallur', 'name' => 'Koomanchira'],
             ['parent_station' => 'Kumaramputhur', 'name' => 'Payyanadam'],
         ];
 
