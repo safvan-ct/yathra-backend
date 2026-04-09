@@ -18,6 +18,10 @@ use App\Http\Controllers\Api\V1\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
+    // GUEST
+    Route::apiResource('stations', StationController::class)->only(['index']);
+    Route::get('trips/buses', [TripController::class, 'buses']);
+
     // User Authentication Routes (Mobile - Phone + PIN)
     Route::prefix('user')->group(function () {
         Route::post('/register', [UserAuthController::class, 'register']);
@@ -48,7 +52,7 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('states', StateController::class)->only(['index', 'show']);
         Route::apiResource('districts', DistrictController::class)->only(['index', 'show']);
         Route::apiResource('cities', CityController::class)->only(['index', 'show']);
-        Route::apiResource('stations', StationController::class)->only(['index', 'show']);
+        Route::apiResource('stations', StationController::class)->only(['show']);
 
         Route::apiResource('operators', OperatorController::class)->only(['index', 'show']);
         Route::apiResource('buses', BusController::class)->only(['index', 'show']);
@@ -58,7 +62,6 @@ Route::prefix('v1')->group(function () {
         Route::get('trips', [TripController::class, 'index']);
         Route::get('trips/active', [TripController::class, 'active']);
         Route::get('trips/today', [TripController::class, 'today']);
-        Route::get('trips/buses', [TripController::class, 'buses']); // new
         Route::get('trips/day/{dayIndex}', [TripController::class, 'byDay']);
         Route::get('trips/{id}', [TripController::class, 'show']);
 
