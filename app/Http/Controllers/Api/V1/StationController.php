@@ -17,7 +17,7 @@ class StationController
 
     public function index(Request $request): JsonResponse
     {
-        $stations = $this->stationService->list($request->only(['search', 'city_id', 'type']), $request->input('per_page', 15));
+        $stations = $this->stationService->list($request->only(['search', 'city_id', 'type']), $request->input('per_page', 15), true);
         return ApiResponse::paginated(StationResource::collection($stations), 'Stations retrieved', 200);
     }
 

@@ -11,151 +11,159 @@ class TransitRouteSeeder extends Seeder
     {
         $routeService = App::make(TransitRouteService::class);
 
+        $mkd         = 376;
+        $tvk         = 1399;
+        $kpm         = 379;
+        $amb         = 1402;
+        $pmna        = 264;
+        $koomanchira = 1403;
+        $alr         = 378;
+
         $routes = [
             [
-                'origin_id'      => 85,  // MKD
-                'destination_id' => 162, // TVK
+                'origin_id'      => $mkd, // MKD
+                'destination_id' => $tvk, // TVK
                 'variant'        => 'DIRECT',
                 'distance'       => 17,
                 'nodes'          => [
-                    ['station_id' => 85, 'stop_sequence' => 1, 'distance_from_origin' => 0],
-                    ['station_id' => 88, 'stop_sequence' => 2, 'distance_from_origin' => 10],
-                    ['station_id' => 162, 'stop_sequence' => 3, 'distance_from_origin' => 17],
+                    ['station_id' => $mkd, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => $kpm, 'stop_sequence' => 2, 'distance_from_origin' => 10],
+                    ['station_id' => $tvk, 'stop_sequence' => 3, 'distance_from_origin' => 17],
                 ],
             ],
             [
-                'origin_id'      => 162, // TVK
-                'destination_id' => 85,  // MKD
+                'origin_id'      => $tvk, // TVK
+                'destination_id' => $mkd, // MKD
                 'variant'        => 'DIRECT',
                 'distance'       => 17,
                 'nodes'          => [
-                    ['station_id' => 162, 'stop_sequence' => 1, 'distance_from_origin' => 0],
-                    ['station_id' => 88, 'stop_sequence' => 2, 'distance_from_origin' => 7],
-                    ['station_id' => 85, 'stop_sequence' => 3, 'distance_from_origin' => 17],
+                    ['station_id' => $tvk, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => $kpm, 'stop_sequence' => 2, 'distance_from_origin' => 7],
+                    ['station_id' => $mkd, 'stop_sequence' => 3, 'distance_from_origin' => 17],
                 ],
             ],
             [
-                'origin_id'      => 85,  // MKD
-                'destination_id' => 164, // AMB
+                'origin_id'      => $mkd, // MKD
+                'destination_id' => $amb, // AMB
                 'variant'        => 'DIRECT',
                 'distance'       => 22,
                 'nodes'          => [
-                    ['station_id' => 85, 'stop_sequence' => 1, 'distance_from_origin' => 0],
-                    ['station_id' => 88, 'stop_sequence' => 2, 'distance_from_origin' => 10],
-                    ['station_id' => 162, 'stop_sequence' => 3, 'distance_from_origin' => 17],
-                    ['station_id' => 164, 'stop_sequence' => 4, 'distance_from_origin' => 22],
+                    ['station_id' => $mkd, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => $kpm, 'stop_sequence' => 2, 'distance_from_origin' => 10],
+                    ['station_id' => $tvk, 'stop_sequence' => 3, 'distance_from_origin' => 17],
+                    ['station_id' => $amb, 'stop_sequence' => 4, 'distance_from_origin' => 22],
                 ],
             ],
             [
-                'origin_id'      => 164, // AMB
-                'destination_id' => 85,  // MKD
+                'origin_id'      => $amb, // AMB
+                'destination_id' => $mkd, // MKD
                 'variant'        => 'DIRECT',
                 'distance'       => 22,
                 'nodes'          => [
-                    ['station_id' => 164, 'stop_sequence' => 1, 'distance_from_origin' => 0],
-                    ['station_id' => 162, 'stop_sequence' => 2, 'distance_from_origin' => 5],
-                    ['station_id' => 88, 'stop_sequence' => 3, 'distance_from_origin' => 12],
-                    ['station_id' => 85, 'stop_sequence' => 4, 'distance_from_origin' => 22],
+                    ['station_id' => $amb, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => $tvk, 'stop_sequence' => 2, 'distance_from_origin' => 5],
+                    ['station_id' => $kpm, 'stop_sequence' => 3, 'distance_from_origin' => 12],
+                    ['station_id' => $mkd, 'stop_sequence' => 4, 'distance_from_origin' => 22],
                 ],
             ],
             [
-                'origin_id'      => 107, // PMNA
-                'destination_id' => 162, // TVK
+                'origin_id'      => $pmna, // PMNA
+                'destination_id' => $tvk,  // TVK
                 'variant'        => 'DIRECT',
                 'distance'       => 33,
                 'nodes'          => [
-                    ['station_id' => 107, 'stop_sequence' => 1, 'distance_from_origin' => 0],
-                    ['station_id' => 87, 'stop_sequence' => 2, 'distance_from_origin' => 20],
-                    ['station_id' => 88, 'stop_sequence' => 3, 'distance_from_origin' => 26],
-                    ['station_id' => 162, 'stop_sequence' => 4, 'distance_from_origin' => 33],
+                    ['station_id' => $pmna, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => $alr, 'stop_sequence' => 2, 'distance_from_origin' => 20],
+                    ['station_id' => $kpm, 'stop_sequence' => 3, 'distance_from_origin' => 26],
+                    ['station_id' => $tvk, 'stop_sequence' => 4, 'distance_from_origin' => 33],
                 ],
             ],
             [
-                'origin_id'      => 162, // TVK
-                'destination_id' => 107, // PMNA
+                'origin_id'      => $tvk,  // TVK
+                'destination_id' => $pmna, // PMNA
                 'variant'        => 'DIRECT',
                 'distance'       => 33,
                 'nodes'          => [
-                    ['station_id' => 162, 'stop_sequence' => 1, 'distance_from_origin' => 0],
-                    ['station_id' => 88, 'stop_sequence' => 2, 'distance_from_origin' => 7],
-                    ['station_id' => 87, 'stop_sequence' => 3, 'distance_from_origin' => 13],
-                    ['station_id' => 107, 'stop_sequence' => 4, 'distance_from_origin' => 33],
+                    ['station_id' => $tvk, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => $kpm, 'stop_sequence' => 2, 'distance_from_origin' => 7],
+                    ['station_id' => $alr, 'stop_sequence' => 3, 'distance_from_origin' => 13],
+                    ['station_id' => $pmna, 'stop_sequence' => 4, 'distance_from_origin' => 33],
                 ],
             ],
             [
-                'origin_id'      => 107, // PMNA
-                'destination_id' => 162, // TVK
+                'origin_id'      => $pmna, // PMNA
+                'destination_id' => $tvk,  // TVK
                 'variant'        => 'VIA KOOMANCHIRA',
                 'distance'       => 26,
                 'nodes'          => [
-                    ['station_id' => 107, 'stop_sequence' => 1, 'distance_from_origin' => 0],
-                    ['station_id' => 87, 'stop_sequence' => 2, 'distance_from_origin' => 20],
-                    ['station_id' => 165, 'stop_sequence' => 3, 'distance_from_origin' => 23],
-                    ['station_id' => 162, 'stop_sequence' => 4, 'distance_from_origin' => 26],
+                    ['station_id' => $pmna, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => $alr, 'stop_sequence' => 2, 'distance_from_origin' => 20],
+                    ['station_id' => $koomanchira, 'stop_sequence' => 3, 'distance_from_origin' => 23],
+                    ['station_id' => $tvk, 'stop_sequence' => 4, 'distance_from_origin' => 26],
                 ],
             ],
             [
-                'origin_id'      => 162, // TVK
-                'destination_id' => 107, // PMNA
+                'origin_id'      => $tvk,  // TVK
+                'destination_id' => $pmna, // PMNA
                 'variant'        => 'VIA KOOMANCHIRA',
                 'distance'       => 26,
                 'nodes'          => [
-                    ['station_id' => 162, 'stop_sequence' => 1, 'distance_from_origin' => 0],
-                    ['station_id' => 165, 'stop_sequence' => 2, 'distance_from_origin' => 3],
-                    ['station_id' => 87, 'stop_sequence' => 3, 'distance_from_origin' => 6],
-                    ['station_id' => 107, 'stop_sequence' => 4, 'distance_from_origin' => 26],
+                    ['station_id' => $tvk, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => $koomanchira, 'stop_sequence' => 2, 'distance_from_origin' => 3],
+                    ['station_id' => $alr, 'stop_sequence' => 3, 'distance_from_origin' => 6],
+                    ['station_id' => $pmna, 'stop_sequence' => 4, 'distance_from_origin' => 26],
                 ],
             ],
             [
-                'origin_id'      => 107, // PMNA
-                'destination_id' => 164, // AMB
+                'origin_id'      => $pmna, // PMNA
+                'destination_id' => $amb,  // AMB
                 'variant'        => 'DIRECT',
                 'distance'       => 38,
                 'nodes'          => [
-                    ['station_id' => 107, 'stop_sequence' => 1, 'distance_from_origin' => 0],
-                    ['station_id' => 87, 'stop_sequence' => 2, 'distance_from_origin' => 20],
-                    ['station_id' => 88, 'stop_sequence' => 3, 'distance_from_origin' => 26],
-                    ['station_id' => 162, 'stop_sequence' => 4, 'distance_from_origin' => 33],
-                    ['station_id' => 164, 'stop_sequence' => 5, 'distance_from_origin' => 38],
+                    ['station_id' => $pmna, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => $alr, 'stop_sequence' => 2, 'distance_from_origin' => 20],
+                    ['station_id' => $kpm, 'stop_sequence' => 3, 'distance_from_origin' => 26],
+                    ['station_id' => $tvk, 'stop_sequence' => 4, 'distance_from_origin' => 33],
+                    ['station_id' => $amb, 'stop_sequence' => 5, 'distance_from_origin' => 38],
                 ],
             ],
             [
-                'origin_id'      => 164, // AMB
-                'destination_id' => 107, // PMNA
+                'origin_id'      => $amb,  // AMB
+                'destination_id' => $pmna, // PMNA
                 'variant'        => 'DIRECT',
                 'distance'       => 38,
                 'nodes'          => [
-                    ['station_id' => 164, 'stop_sequence' => 1, 'distance_from_origin' => 0],
-                    ['station_id' => 162, 'stop_sequence' => 2, 'distance_from_origin' => 5],
-                    ['station_id' => 88, 'stop_sequence' => 3, 'distance_from_origin' => 12],
-                    ['station_id' => 87, 'stop_sequence' => 4, 'distance_from_origin' => 18],
-                    ['station_id' => 107, 'stop_sequence' => 5, 'distance_from_origin' => 38],
+                    ['station_id' => $amb, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => $tvk, 'stop_sequence' => 2, 'distance_from_origin' => 5],
+                    ['station_id' => $kpm, 'stop_sequence' => 3, 'distance_from_origin' => 12],
+                    ['station_id' => $alr, 'stop_sequence' => 4, 'distance_from_origin' => 18],
+                    ['station_id' => $pmna, 'stop_sequence' => 5, 'distance_from_origin' => 38],
                 ],
             ],
             [
-                'origin_id'      => 107, // PMNA
-                'destination_id' => 164, // AMB
+                'origin_id'      => $pmna, // PMNA
+                'destination_id' => $amb,  // AMB
                 'variant'        => 'VIA KOOMANCHIRA',
                 'distance'       => 31,
                 'nodes'          => [
-                    ['station_id' => 107, 'stop_sequence' => 1, 'distance_from_origin' => 0],
-                    ['station_id' => 87, 'stop_sequence' => 2, 'distance_from_origin' => 20],
-                    ['station_id' => 165, 'stop_sequence' => 3, 'distance_from_origin' => 23],
-                    ['station_id' => 162, 'stop_sequence' => 4, 'distance_from_origin' => 26],
-                    ['station_id' => 164, 'stop_sequence' => 5, 'distance_from_origin' => 31],
+                    ['station_id' => $pmna, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => $alr, 'stop_sequence' => 2, 'distance_from_origin' => 20],
+                    ['station_id' => $koomanchira, 'stop_sequence' => 3, 'distance_from_origin' => 23],
+                    ['station_id' => $tvk, 'stop_sequence' => 4, 'distance_from_origin' => 26],
+                    ['station_id' => $amb, 'stop_sequence' => 5, 'distance_from_origin' => 31],
                 ],
             ],
             [
-                'origin_id'      => 164, // AMB
-                'destination_id' => 107, // PMNA
+                'origin_id'      => $amb,  // AMB
+                'destination_id' => $pmna, // PMNA
                 'variant'        => 'VIA KOOMANCHIRA',
                 'distance'       => 31,
                 'nodes'          => [
-                    ['station_id' => 164, 'stop_sequence' => 1, 'distance_from_origin' => 0],
-                    ['station_id' => 162, 'stop_sequence' => 2, 'distance_from_origin' => 5],
-                    ['station_id' => 165, 'stop_sequence' => 3, 'distance_from_origin' => 8],
-                    ['station_id' => 87, 'stop_sequence' => 4, 'distance_from_origin' => 11],
-                    ['station_id' => 107, 'stop_sequence' => 5, 'distance_from_origin' => 31],
+                    ['station_id' => $amb, 'stop_sequence' => 1, 'distance_from_origin' => 0],
+                    ['station_id' => $tvk, 'stop_sequence' => 2, 'distance_from_origin' => 5],
+                    ['station_id' => $koomanchira, 'stop_sequence' => 3, 'distance_from_origin' => 8],
+                    ['station_id' => $alr, 'stop_sequence' => 4, 'distance_from_origin' => 11],
+                    ['station_id' => $pmna, 'stop_sequence' => 5, 'distance_from_origin' => 31],
                 ],
             ],
         ];

@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('origin_id')->constrained('stations')->cascadeOnDelete();
             $table->foreignId('destination_id')->constrained('stations')->cascadeOnDelete();
-            $table->string('route_code')->unique();
+            $table->string('route_code')->nullable()->unique();
             $table->string('path_signature');
             $table->decimal('distance', 10, 2)->default(0);
             $table->boolean('is_active')->default(true);

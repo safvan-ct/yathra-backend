@@ -34,7 +34,7 @@ return new class extends Migration
             $table->foreignId('district_id')->constrained('districts')->onDelete('cascade');
             $table->string('name');
             $table->string('local_name')->nullable();
-            $table->string('code', 5)->unique();
+            $table->string('code', 5)->nullable()->unique();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
@@ -45,7 +45,7 @@ return new class extends Migration
             $table->foreignId('city_id')->constrained('cities')->onDelete('cascade');
             $table->foreignId('parent_id')->nullable()->constrained('stations')->nullOnDelete();
             $table->string('name');
-            $table->string('code', 5)->unique();
+            $table->string('code', 5)->nullable()->unique();
             $table->string('local_name')->nullable();
             $table->decimal('lat', 10, 8)->nullable();
             $table->decimal('long', 11, 8)->nullable();
@@ -54,6 +54,8 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique(['city_id', 'parent_id', 'name']);
         });
     }
 

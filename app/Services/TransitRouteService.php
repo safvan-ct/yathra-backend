@@ -31,13 +31,13 @@ class TransitRouteService
             $pathSignature = $this->normalizeSignature($data['variant']);
             $this->assertUniqueVariant($data['origin_id'], $data['destination_id'], $pathSignature);
 
-            $routeCode = $this->buildRouteCode($data['origin_id'], $data['destination_id'], $pathSignature);
+            // $routeCode = $this->buildRouteCode($data['origin_id'], $data['destination_id'], $pathSignature);
 
             $route = $this->routeRepository->create([
                 'origin_id'      => $data['origin_id'],
                 'destination_id' => $data['destination_id'],
                 'path_signature' => $pathSignature,
-                'route_code'     => $routeCode,
+                'route_code'     => $routeCode ?? null,
                 'distance'       => $data['distance'] ?? 0,
                 'is_active'      => $data['is_active'] ?? true,
             ]);
@@ -64,13 +64,13 @@ class TransitRouteService
             $pathSignature = $this->normalizeSignature($data['variant'] ?? $existingRoute->path_signature);
 
             $this->assertUniqueVariant($originId, $destinationId, $pathSignature, $id);
-            $routeCode = $this->buildRouteCode($originId, $destinationId, $pathSignature);
+            // $routeCode = $this->buildRouteCode($originId, $destinationId, $pathSignature);
 
             $payload = [
                 'origin_id'      => $originId,
                 'destination_id' => $destinationId,
                 'path_signature' => $pathSignature,
-                'route_code'     => $routeCode,
+                'route_code'     => $routeCode ?? null,
             ];
 
             if (array_key_exists('distance', $data)) {

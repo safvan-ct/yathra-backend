@@ -47,7 +47,9 @@ if (! function_exists('generateUniqueCode')) {
         $code = str_pad($code, 3, 'X');
 
         $reservedCodes = array_values($overrides);
-        if (in_array($code, $reservedCodes)) {
+        $exist         = $modelClass::where($column, $code)->exists();
+
+        if (in_array($code, $reservedCodes) || $exist) {
             $base     = $code;
             $alphabet = range('A', 'Z');
             $i        = 0;
@@ -56,23 +58,10 @@ if (! function_exists('generateUniqueCode')) {
                 if ($i < 26) {
                     $code = substr($base, 0, 2) . $alphabet[$i];
                 } else {
-                    $code = substr($base, 0, 1) . $alphabet[intval($i / 26)] . $alphabet[$i % 26];
+                    $code = substr($base, 0, 1) . $alphabet[intval($i / 26) % 26] . $alphabet[$i % 26];
                 }
                 $i++;
-            } while (in_array($code, $reservedCodes));
-        }
-
-        $base     = $code;
-        $alphabet = range('A', 'Z');
-        $i        = 0;
-
-        while ($modelClass::where($column, $code)->exists()) {
-            if ($i < 26) {
-                $code = substr($base, 0, 2) . $alphabet[$i];
-            } else {
-                $code = substr($base, 0, 1) . $alphabet[intval($i / 26)] . $alphabet[$i % 26];
-            }
-            $i++;
+            } while (in_array($code, $reservedCodes) || $exist);
         }
 
         return $code;

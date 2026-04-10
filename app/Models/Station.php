@@ -28,6 +28,11 @@ class Station extends Model
         return $this->belongsTo(City::class);
     }
 
+    public function localBody()
+    {
+        return $this->belongsTo(Station::class, 'parent_id', 'id');
+    }
+
     public function originRoutes()
     {
         return $this->hasMany(TransitRoute::class, 'origin_id');

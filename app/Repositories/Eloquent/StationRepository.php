@@ -8,18 +8,28 @@ class StationRepository implements StationRepositoryInterface
 {
     public function paginate(array $filters = [], int $perPage = 15, bool $withInfo = false)
     {
-        $query = Station::query();
+        $query  = Station::query();
+        $search = $filters['search'];
 
         if ($withInfo) {
-            $query->with('city.district.state');
+            $query->with(['city', 'localBody']);
         }
 
-        if (! empty($filters['search'])) {
-            $query->where(function ($q) use ($filters) {
-                $q->where('name', 'like', '%' . $filters['search'] . '%')
-                    ->orWhere('code', 'like', '%' . $filters['search'] . '%')
-                    ->orWhere('local_name', 'like', '%' . $filters['search'] . '%');
+        if (! empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')->orWhere('local_name', 'like', '%' . $search . '%');
             });
+
+            $query->orderByRaw("
+                CASE
+                    WHEN name LIKE ? THEN 1
+                    WHEN local_name LIKE ? THEN 2
+                    WHEN name LIKE ? THEN 3
+                    WHEN local_name LIKE ? THEN 4
+                    ELSE 5
+                END
+                ", ["{$search}%", "{$search}%", "{$search}%", "%{$search}%"]
+            );
         }
 
         if (! empty($filters['city_id'])) {
