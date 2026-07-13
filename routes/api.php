@@ -22,6 +22,12 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('stations', StationController::class)->only(['index']);
     Route::get('trips/buses', [TripController::class, 'buses']);
 
+    // Public routes for buses, trips and route nodes tracking (no auth needed)
+    Route::apiResource('buses', BusController::class)->only(['index', 'show']);
+    Route::get('trips', [TripController::class, 'index']);
+    Route::get('trips/{id}', [TripController::class, 'show']);
+    Route::get('routes/{route}/nodes', [RouteNodeController::class, 'index']);
+
     // User Authentication Routes (Mobile - Phone + PIN)
     Route::prefix('user')->group(function () {
         Route::post('/register', [UserAuthController::class, 'register']);
@@ -55,15 +61,11 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('stations', StationController::class)->only(['show']);
 
         Route::apiResource('operators', OperatorController::class)->only(['index', 'show']);
-        Route::apiResource('buses', BusController::class)->only(['index', 'show']);
         Route::apiResource('routes', TransitRouteController::class)->only(['index', 'show']);
-        Route::get('routes/{route}/nodes', [RouteNodeController::class, 'index']);
 
-        Route::get('trips', [TripController::class, 'index']);
         Route::get('trips/active', [TripController::class, 'active']);
         Route::get('trips/today', [TripController::class, 'today']);
         Route::get('trips/day/{dayIndex}', [TripController::class, 'byDay']);
-        Route::get('trips/{id}', [TripController::class, 'show']);
 
         Route::apiResource('suggestions', SuggestionController::class)->only(['index', 'store', 'show', 'destroy']);
 

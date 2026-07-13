@@ -656,7 +656,7 @@ class CitySeeder extends Seeder
             122 => [
                 "name"     => "Chadayamangalam",
                 "district" => "KLM",
-                "lsgs"     => ["Alayamon", "Chadayamangalam", "Chithara", "Elamad", "Ittiva", "Kadakkal", "	Kummil", "Nilamel", "Velinallur"],
+                "lsgs"     => ["Alayamon", "Chadayamangalam", "Chithara", "Elamad", "Ittiva", "Kadakkal", "Kummil", "Nilamel", "Velinallur"],
             ],
             123 => [
                 "name"     => "Kundara",

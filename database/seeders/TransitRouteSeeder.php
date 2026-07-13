@@ -14,9 +14,9 @@ class TransitRouteSeeder extends Seeder
         $mkd         = 376;
         $tvk         = 1399;
         $kpm         = 379;
-        $amb         = 1402;
+        $amb         = 1401;
         $pmna        = 264;
-        $koomanchira = 1403;
+        $koomanchira = 1402;
         $alr         = 378;
 
         $routes = [

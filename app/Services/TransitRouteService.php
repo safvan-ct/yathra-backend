@@ -45,7 +45,7 @@ class TransitRouteService
             $this->syncNodes($route->id, $data['origin_id'], $data['destination_id'], $data['nodes']);
             $updatedRoute = $this->routeRepository->find($route->id);
 
-            $this->activityLogService->log('route_created', 'App\\Models\\TransitRoute', $route->id, $updatedRoute->toArray());
+            // $this->activityLogService->log('route_created', 'App\\Models\\TransitRoute', $route->id, $updatedRoute->toArray());
 
             return $updatedRoute;
         });
@@ -88,7 +88,7 @@ class TransitRouteService
             }
 
             $updatedRoute = $this->routeRepository->find($id);
-            $this->activityLogService->log('route_updated', 'App\\Models\\TransitRoute', $id, $updatedRoute?->toArray());
+            // $this->activityLogService->log('route_updated', 'App\\Models\\TransitRoute', $id, $updatedRoute?->toArray());
 
             return $updatedRoute;
         });
@@ -98,9 +98,9 @@ class TransitRouteService
     {
         return DB::transaction(function () use ($id) {
             $deleted = $this->routeRepository->delete($id);
-            if ($deleted) {
-                $this->activityLogService->log('route_deleted', 'App\\Models\\TransitRoute', $id, null);
-            }
+            // if ($deleted) {
+            //     $this->activityLogService->log('route_deleted', 'App\\Models\\TransitRoute', $id, null);
+            // }
 
             return $deleted;
         });
