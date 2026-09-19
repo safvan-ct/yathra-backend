@@ -77,7 +77,7 @@ class TripController
 
     public function buses(Request $request): JsonResponse
     {
-        $trips = $this->tripService->getBusesBetweenStations($request->input('from'), $request->input('to'));
+        $trips = $this->tripService->getBusesBetweenStations((int) $request->input('from'), (int) $request->input('to'));
         return ApiResponse::success($trips, "Trips retrieved", 200);
     }
 }
